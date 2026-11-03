@@ -432,6 +432,48 @@ Instagram: @codigoestelar333 | Contacto: codigoestelar333@gmail.com</textarea>
 
   <div id="toast" class="toast-bar"></div>
 
+  <!-- MODAL DE ASISTENCIA Y CONTROL DE PUBLICACIÓN INSTANTÁNEA -->
+  <div id="publish-action-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(3,6,15,0.88); backdrop-filter:blur(8px); z-index:10000; align-items:center; justify-content:center;">
+    <div style="background:linear-gradient(135deg, #131A38, #0B0F24); border:2px solid var(--gold-astrolabe); border-radius:18px; width:92%; max-width:620px; padding:2rem; box-shadow:0 20px 60px rgba(0,0,0,0.85); text-align:center;">
+      <div style="font-size:2.6rem; margin-bottom:0.4rem;" id="modal-icon">🚀</div>
+      <h3 style="font-size:1.65rem; color:var(--gold-soft); margin-bottom:0.35rem;" id="modal-title">Publicando en Instagram</h3>
+      <p style="font-size:0.92rem; color:var(--pearl-white); margin-bottom:1.4rem;" id="modal-subtitle">Asistiendo tu publicación en tiempo real en tu Mac.</p>
+      
+      <div style="background:rgba(5,8,20,0.8); border:1px solid rgba(212,175,55,0.3); border-radius:12px; padding:1.2rem; text-align:left; margin-bottom:1.5rem; font-size:0.92rem;">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;" id="step-caption">
+          <span style="color:var(--emerald-ok); font-size:1.1rem;">✅</span>
+          <span><strong>Caption oficial copiado</strong> a tu portapapeles (Presiona <kbd style="background:#222; padding:2px 6px; border-radius:4px; border:1px solid #555;">Cmd + V</kbd> en Instagram).</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;" id="step-finder">
+          <span style="color:var(--emerald-ok); font-size:1.1rem;">✅</span>
+          <span><strong>Carpeta de Finder abierta</strong> en tu Mac con los archivos de imagen listos.</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.6rem;" id="step-instagram">
+          <span style="color:var(--emerald-ok); font-size:1.1rem;">✅</span>
+          <span><strong>Diálogo de Instagram activado</strong> en Google Chrome listo para recibir las imágenes.</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+        <button class="btn-gold" style="padding:0.75rem 1.6rem; font-size:0.92rem; font-weight:700;" onclick="focusOrOpenInstagram()">
+          📷 Ir a Instagram Web
+        </button>
+        <button class="btn-outline" style="padding:0.75rem 1.3rem; font-size:0.92rem;" onclick="reopenCurrentFolder()">
+          📁 Reabrir Carpeta en Finder
+        </button>
+        <button class="btn-outline" style="padding:0.75rem 1.2rem; font-size:0.85rem;" onclick="closePublishModal()">
+          ✕ Listo / Cerrar
+        </button>
+      </div>
+
+      <div id="modal-next-story-btn-container" style="display:none; margin-top:1.2rem; padding-top:1.2rem; border-top:1px solid rgba(212,175,55,0.25);">
+        <button class="btn-gold" style="background:linear-gradient(135deg, #7A5AF8, #5E43B6); width:100%; padding:0.85rem; font-size:0.95rem; font-weight:700;" onclick="triggerNextStoryStep()">
+          📱 Continuar y Publicar Ahora las 9 Stories →
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let adminState = {
       brand: {},
@@ -977,12 +1019,135 @@ Instagram: @codigoestelar333 | Contacto: codigoestelar333@gmail.com</textarea>
               </p>
             </div>
             <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-              <button class="btn-gold" style="padding:0.85rem 1.5rem; font-size:0.9rem;" onclick="authorizeDailyPack('${race.slug}', 'approved_ready')">
-                ✅ Autorizar Publicación del Día (${race.name})
+              <button class="btn-gold" style="padding:0.85rem 1.5rem; font-size:0.9rem;" onclick="publishToInstagram('${race.slug}', 'post')">
+                🚀 Publicar Post Carrusel (${race.name})
+              </button>
+              <button class="btn-outline" style="border-color:var(--violet-astral); color:#B8A4FC; padding:0.85rem 1.2rem; font-size:0.85rem;" onclick="publishToInstagram('${race.slug}', 'story')">
+                📱 Publicar Stories
               </button>
               <button class="btn-outline" style="padding:0.85rem 1.2rem; font-size:0.85rem;" onclick="document.getElementById('correction-box-${race.slug}').scrollIntoView({behavior:'smooth'})">
-                ✏️ Pedir Corrección o Editar Lámina ↓
+                ✏️ Editar Lámina ↓
               </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESTACIÓN PRINCIPAL DE REVISIÓN VISUAL & PUBLICACIÓN EN 1 CLIC -->
+        <div class="card-cosmic" style="margin-bottom:1.8rem; border:2px solid var(--gold-astrolabe); background:linear-gradient(135deg, rgba(16,26,62,0.95), rgba(7,11,26,0.98)); box-shadow:0 12px 40px rgba(0,0,0,0.65);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.4rem; border-bottom:1px solid rgba(212,175,55,0.3); padding-bottom:1rem;">
+            <div>
+              <span class="badge badge-gold" style="font-size:0.85rem;">✦ ESTACIÓN DE REVISIÓN Y PUBLICACIÓN EN 1 CLIC ✦</span>
+              <h2 style="font-size:1.85rem; color:var(--pearl-white); margin:0.35rem 0 0.15rem;">
+                Revisar Imágenes y Descripción de ${race.name}
+              </h2>
+              <p style="color:var(--silver-mist); font-size:0.88rem; margin:0;">
+                Inspecciona cada una de las 9 láminas y el texto. Cuando estés listo, haz clic en Publicar para que el sistema abra Instagram y prepare tus archivos.
+              </p>
+            </div>
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+              <button class="btn-gold" style="padding:0.75rem 1.3rem; font-size:0.88rem; font-weight:700;" onclick="publishToInstagram('${race.slug}', 'post')">
+                🚀 1. Publicar Post Carrusel
+              </button>
+              <button class="btn-outline" style="border-color:var(--violet-astral); color:#B8A4FC; padding:0.75rem 1.2rem; font-size:0.88rem; font-weight:600;" onclick="publishToInstagram('${race.slug}', 'story')">
+                📱 2. Publicar Stories
+              </button>
+              <button class="btn-gold" style="background:linear-gradient(135deg, #F3DF9B, #D4AF37); color:#080C1E; font-weight:700; padding:0.75rem 1.3rem; font-size:0.88rem;" onclick="publishToInstagram('${race.slug}', 'post_and_story')">
+                ⚡ 3. Publicar Post + Stories
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-2" style="align-items:start; gap:1.8rem;">
+            <!-- COLUMNA IZQUIERDA: VISOR DE IMÁGENES -->
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                <div style="display:flex; gap:0.4rem;">
+                  <button id="btn-mode-post" class="btn-gold" style="padding:0.4rem 0.9rem; font-size:0.8rem;" onclick="setReviewMode('post')">
+                    🖼️ Post (1080×1350)
+                  </button>
+                  <button id="btn-mode-story" class="btn-outline" style="padding:0.4rem 0.9rem; font-size:0.8rem;" onclick="setReviewMode('story')">
+                    📱 Stories (1080×1920)
+                  </button>
+                </div>
+                <span id="review-slide-counter" style="font-size:0.85rem; color:var(--gold-soft); font-weight:600;">Lámina 1 de 9</span>
+              </div>
+
+              <!-- VISOR PRINCIPAL GRANDE -->
+              <div style="background:#04060E; border:1px solid rgba(212,175,55,0.4); border-radius:14px; padding:0.8rem; text-align:center; position:relative;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                  <button class="btn-outline" style="padding:0.35rem 0.8rem; font-size:0.8rem;" onclick="prevReviewSlide()">◀ Anterior</button>
+                  <strong id="review-slide-title" style="font-size:0.85rem; color:var(--gold-soft);">${SLIDE_LABELS[0]}</strong>
+                  <button class="btn-outline" style="padding:0.35rem 0.8rem; font-size:0.8rem;" onclick="nextReviewSlide()">Siguiente ▶</button>
+                </div>
+                <div style="position:relative; max-height:460px; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:10px;">
+                  <img id="review-main-image" src="${race.postSlides[0]}?v=${packCacheBuster}" alt="Vista previa lámina" style="max-height:450px; max-width:100%; object-fit:contain; border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.85);" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.6rem; font-size:0.78rem; color:var(--silver-mist);">
+                  <span>Zona Segura Anti-Corte: <strong style="color:var(--emerald-ok);">✓ Verificada</strong></span>
+                  <a id="review-download-btn" href="${race.postSlides[0]}?v=${packCacheBuster}" download="${race.slug}_lamina_01.png" style="color:var(--gold-soft);">⬇ Descargar esta lámina</a>
+                </div>
+              </div>
+
+              <!-- TIRA DE MINIATURAS (1 a 9) -->
+              <div style="display:grid; grid-template-columns:repeat(9, 1fr); gap:0.4rem; margin-top:0.75rem;">
+                ${race.postSlides.map((url, idx) => `
+                  <div
+                    id="thumb-box-${idx}"
+                    onclick="setReviewSlide(${idx})"
+                    style="cursor:pointer; border:2px solid ${idx === 0 ? 'var(--gold-astrolabe)' : 'rgba(212,175,55,0.2)'}; border-radius:6px; overflow:hidden; background:#000; text-align:center; transition:all 0.15s ease;"
+                  >
+                    <img id="thumb-img-${idx}" src="${url}?v=${packCacheBuster}" alt="Lámina ${idx+1}" style="width:100%; height:48px; object-fit:cover; display:block;" />
+                    <span style="font-size:0.68rem; color:var(--gold-soft); display:block; padding:1px 0;">0${idx+1}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: REVISIÓN DE DESCRIPCIÓN Y BOTONES DE DISPARO -->
+            <div style="display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.55rem;">
+                  <strong style="color:var(--gold-soft); font-size:1.05rem;">📝 Descripción del Post (Caption Oficial)</strong>
+                  <span id="caption-char-count" style="font-size:0.8rem; color:var(--silver-mist);"></span>
+                </div>
+                <textarea
+                  id="review-caption-text"
+                  rows="11"
+                  style="width:100%; font-size:0.86rem; line-height:1.5; padding:0.9rem; border-radius:10px; border:1px solid rgba(212,175,55,0.4); background:rgba(4,7,18,0.85); color:var(--pearl-white); font-family:inherit; resize:vertical; margin-bottom:0.8rem;"
+                >${race.caption_instagram}</textarea>
+                <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1.4rem;">
+                  <button class="btn-outline" style="padding:0.45rem 1rem; font-size:0.8rem;" onclick="copyReviewCaption()">
+                    📋 Copiar Texto
+                  </button>
+                  <button class="btn-outline" style="padding:0.45rem 1rem; font-size:0.8rem;" onclick="saveReviewCaption('${race.slug}')">
+                    💾 Guardar Cambios en Descripción
+                  </button>
+                  <button class="btn-outline" style="padding:0.45rem 1rem; font-size:0.8rem;" onclick="openFinderFolder('${race.slug}', 'post')">
+                    📁 Ver Carpeta en Finder
+                  </button>
+                </div>
+              </div>
+
+              <!-- CAJA DE DISPARO RÁPIDO CON BOTONES DE PUBLICACIÓN -->
+              <div style="background:rgba(10,17,42,0.8); border:1px solid rgba(212,175,55,0.35); border-radius:12px; padding:1.2rem;">
+                <strong style="display:block; color:var(--gold-soft); font-size:0.95rem; margin-bottom:0.4rem;">
+                  ⚡ Disparadores de Publicación Asistida en Instagram
+                </strong>
+                <p style="font-size:0.82rem; color:var(--silver-mist); margin-bottom:0.9rem;">
+                  Al hacer clic, el sistema copia el caption a tu portapapeles, abre la carpeta de imágenes en Finder y abre el diálogo Crear en Instagram:
+                </p>
+                <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                  <button class="btn-gold" style="width:100%; padding:0.85rem; font-size:0.95rem; font-weight:700; text-align:center;" onclick="publishToInstagram('${race.slug}', 'post')">
+                    🚀 1. Publicar Post en Instagram (Carrusel 9 Láminas)
+                  </button>
+                  <button class="btn-outline" style="width:100%; border-color:var(--violet-astral); color:#B8A4FC; padding:0.8rem; font-size:0.92rem; font-weight:600; text-align:center;" onclick="publishToInstagram('${race.slug}', 'story')">
+                    📱 2. Publicar Stories en Instagram (9 Historias)
+                  </button>
+                  <button class="btn-gold" style="width:100%; background:linear-gradient(135deg, #F3DF9B, #D4AF37); color:#080C1E; font-weight:700; padding:0.85rem; font-size:0.95rem; text-align:center;" onclick="publishToInstagram('${race.slug}', 'post_and_story')">
+                    ⚡ 3. Publicar Post y Después Stories (Flujo Completo)
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1288,6 +1453,175 @@ Instagram: @codigoestelar333 | Contacto: codigoestelar333@gmail.com</textarea>
       packCacheBuster = data.cacheBuster || Date.now();
       showToast(`✓ Pack completo de ${slug.toUpperCase()} regenerado con éxito.`);
       await loadDailyPacks();
+    }
+
+    // --------------------------------------------------------------------------
+    // ESTACIÓN DE REVISIÓN Y PUBLICACIÓN INSTANTÁNEA (POST & STORIES)
+    // --------------------------------------------------------------------------
+    let currentReviewSlide = 0;
+    let currentReviewMode = 'post';
+
+    function getCurrentRace() {
+      return dailyPacksState.find(r => r.slug === selectedRaceSlug) || dailyPacksState[0];
+    }
+
+    function setReviewMode(mode) {
+      currentReviewMode = mode;
+      const btnPost = document.getElementById('btn-mode-post');
+      const btnStory = document.getElementById('btn-mode-story');
+      if (btnPost && btnStory) {
+        if (mode === 'post') {
+          btnPost.className = 'btn-gold';
+          btnStory.className = 'btn-outline';
+        } else {
+          btnPost.className = 'btn-outline';
+          btnStory.className = 'btn-gold';
+        }
+      }
+      updateReviewSlideView();
+    }
+
+    function setReviewSlide(idx) {
+      currentReviewSlide = Math.max(0, Math.min(8, idx));
+      updateReviewSlideView();
+    }
+
+    function prevReviewSlide() {
+      setReviewSlide(currentReviewSlide > 0 ? currentReviewSlide - 1 : 8);
+    }
+
+    function nextReviewSlide() {
+      setReviewSlide(currentReviewSlide < 8 ? currentReviewSlide + 1 : 0);
+    }
+
+    function updateReviewSlideView() {
+      const race = getCurrentRace();
+      if (!race) return;
+      const slides = currentReviewMode === 'post' ? race.postSlides : race.storySlides;
+      const imgUrl = slides[currentReviewSlide] + '?v=' + packCacheBuster;
+
+      const mainImg = document.getElementById('review-main-image');
+      if (mainImg) mainImg.src = imgUrl;
+
+      const counter = document.getElementById('review-slide-counter');
+      if (counter) counter.textContent = `Lámina ${currentReviewSlide + 1} de 9 (${currentReviewMode.toUpperCase()})`;
+
+      const title = document.getElementById('review-slide-title');
+      if (title) title.textContent = SLIDE_LABELS[currentReviewSlide] || `Lámina ${currentReviewSlide + 1}`;
+
+      const dlBtn = document.getElementById('review-download-btn');
+      if (dlBtn) {
+        dlBtn.href = imgUrl;
+        dlBtn.download = `${race.slug}_${currentReviewMode}_0${currentReviewSlide + 1}.png`;
+      }
+
+      for (let i = 0; i < 9; i++) {
+        const box = document.getElementById(`thumb-box-${i}`);
+        const img = document.getElementById(`thumb-img-${i}`);
+        if (box) {
+          box.style.borderColor = i === currentReviewSlide ? 'var(--gold-astrolabe)' : 'rgba(212,175,55,0.2)';
+        }
+        if (img) {
+          img.src = slides[i] + '?v=' + packCacheBuster;
+        }
+      }
+    }
+
+    function copyReviewCaption() {
+      const ta = document.getElementById('review-caption-text');
+      if (ta) {
+        navigator.clipboard.writeText(ta.value);
+        showToast('✓ Caption copiado al portapapeles');
+      }
+    }
+
+    async function saveReviewCaption(slug) {
+      const ta = document.getElementById('review-caption-text');
+      if (!ta) return;
+      const caption_instagram = ta.value;
+      const res = await fetch('/api/admin/races/update-and-rerender', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, target_slide: 1, caption_instagram, fields: {} })
+      });
+      await res.json();
+      showToast('✓ Descripción guardada con éxito.');
+      await loadDailyPacks();
+    }
+
+    async function openFinderFolder(slug, type) {
+      showToast('Abriendo carpeta de láminas en Finder...');
+      try {
+        await fetch(`/api/admin/open-folder?slug=${slug}&type=${type || 'post'}`);
+      } catch (_) {}
+    }
+
+    let activePublishSlug = '';
+    let activePublishMode = 'post';
+
+    async function publishToInstagram(slug, mode) {
+      activePublishSlug = slug;
+      activePublishMode = mode;
+      const race = getCurrentRace();
+      const ta = document.getElementById('review-caption-text');
+      const caption = ta ? ta.value : (race ? race.caption_instagram : '');
+
+      try {
+        await navigator.clipboard.writeText(caption);
+      } catch (_) {}
+
+      showPublishModal(slug, mode);
+
+      try {
+        const resp = await fetch('/api/admin/publish-action', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug, mode, caption })
+        });
+        const data = await resp.json();
+        console.log('Publish action response:', data);
+      } catch (err) {
+        console.error('Error invoking publish action:', err);
+      }
+    }
+
+    function showPublishModal(slug, mode) {
+      const modal = document.getElementById('publish-action-modal');
+      const title = document.getElementById('modal-title');
+      const subtitle = document.getElementById('modal-subtitle');
+      const nextStoryContainer = document.getElementById('modal-next-story-btn-container');
+
+      if (title) {
+        title.textContent = mode === 'post' ? '🚀 Publicando Post Carrusel en Instagram' : (mode === 'story' ? '📱 Publicando Stories en Instagram' : '⚡ Publicando Post y Stories');
+      }
+      if (subtitle) {
+        subtitle.textContent = mode === 'post' 
+          ? 'Hemos abierto la carpeta en tu Mac con las 9 láminas y activado el diálogo Crear en Instagram.'
+          : (mode === 'story' ? 'Hemos abierto la carpeta de las 9 Stories en tu Mac y enfocado Instagram.' : 'Paso 1: Post Carrusel abierto. Cuando termines, continúa con las Stories.');
+      }
+      if (nextStoryContainer) {
+        nextStoryContainer.style.display = (mode === 'post_and_story') ? 'block' : 'none';
+      }
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+
+    function closePublishModal() {
+      const modal = document.getElementById('publish-action-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function focusOrOpenInstagram() {
+      window.open('https://www.instagram.com/', '_blank');
+    }
+
+    function reopenCurrentFolder() {
+      openFinderFolder(activePublishSlug || 'pleyadianos', currentReviewMode || 'post');
+    }
+
+    function triggerNextStoryStep() {
+      publishToInstagram(activePublishSlug || 'pleyadianos', 'story');
     }
 
     loadDailyPacks();
