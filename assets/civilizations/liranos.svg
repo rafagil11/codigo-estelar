@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+    <defs>
+      <radialGradient id="g_liranos" cx="50%" cy="44%" r="65%">
+        <stop offset="0%" stop-color="#3B1A2E"/>
+        <stop offset="65%" stop-color="#080712"/>
+        <stop offset="100%" stop-color="#04060B"/>
+      </radialGradient>
+    </defs>
+    <rect width="1080" height="1350" fill="url(#g_liranos)"/>
+    <rect x="56" y="56" width="968" height="1238" fill="none" stroke="#E8C56B" stroke-width="1.5" stroke-opacity="0.5"/>
+    <text x="540" y="135" text-anchor="middle" fill="#E8C56B" font-family="Helvetica, Arial, sans-serif" font-size="19" letter-spacing="8">CÓDIGO ESTELAR · ARCHIVO CARTOGRÁFICO</text>
+    <g transform="translate(540,585)">
+      <g stroke="#E8C56B" stroke-width="2.4" fill="none">
+      <circle cx="0" cy="0" r="235" stroke-opacity="0.45"/>
+      <path d="M -130,-160 C -190,40 -90,180 0,220 C 90,180 190,40 130,-160" stroke="#E8C56B" stroke-width="4"/>
+      <line x1="-65" y1="-130" x2="-65" y2="165" stroke="#F4F1EA" stroke-width="1.5"/>
+      <line x1="-22" y1="-145" x2="-22" y2="195" stroke="#F4F1EA" stroke-width="1.5"/>
+      <line x1="22" y1="-145" x2="22" y2="195" stroke="#F4F1EA" stroke-width="1.5"/>
+      <line x1="65" y1="-130" x2="65" y2="165" stroke="#F4F1EA" stroke-width="1.5"/>
+      <circle cx="0" cy="-165" r="18" fill="#F4F1EA"/>
+    </g>
+    </g>
+    <text x="540" y="1045" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="36" letter-spacing="4">LIRANOS (VEGA · CONSTELACIÓN DE LIRA)</text>
+    <text x="540" y="1105" text-anchor="middle" fill="#F282A7" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="2">Arquetipo de la Semilla Primordial · El Arpa Cósmica y los Constructores</text>
+    <text x="540" y="1230" text-anchor="middle" fill="#9A968E" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3">CLASIFICACIÓN DOCUMENTAL: ASTRONOMÍA [A] · MITOLOGÍA [B] · TRADICIÓN ESOTÉRICA [C]</text>
+  </svg>

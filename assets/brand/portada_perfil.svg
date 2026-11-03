@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 640" width="1920" height="640">
+  <defs>
+    <radialGradient id="nebula1" cx="72%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#33206E" stop-opacity="0.8"/>
+      <stop offset="45%" stop-color="#10183B" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#05070E" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="goldLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#F6E299" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="640" fill="url(#nebula1)"/>
+  <!-- Constelaciones geométricas sutiles -->
+  <g stroke="#D4AF37" stroke-opacity="0.22" stroke-width="1" fill="none">
+    <circle cx="1380" cy="320" r="240"/>
+    <circle cx="1380" cy="320" r="180"/>
+    <circle cx="1380" cy="320" r="110"/>
+    <line x1="1050" y1="320" x2="1710" y2="320"/>
+    <line x1="1380" y1="40" x2="1380" y2="600"/>
+    <polyline points="220,140 380,95 510,180 690,120 830,220"/>
+    <circle cx="220" cy="140" r="4" fill="#F4F1EA"/>
+    <circle cx="380" cy="95" r="5" fill="#D4AF37"/>
+    <circle cx="510" cy="180" r="3" fill="#F4F1EA"/>
+    <circle cx="690" cy="120" r="5" fill="#D4AF37"/>
+    <circle cx="830" cy="220" r="4" fill="#F4F1EA"/>
+  </g>
+  <g transform="translate(1380,320) scale(0.78)">
+    <polygon points="0,-245 48,-48 245,0 48,48 0,245 -48,48 -245,0 -48,-48" fill="none" stroke="#D4AF37" stroke-width="2.5" stroke-opacity="0.7"/>
+    <polygon points="0,-175 34,-34 175,0 34,34 0,175 -34,34 -175,0 -34,-34" fill="none" stroke="#F4F1EA" stroke-width="1.2" stroke-opacity="0.5" transform="rotate(45)"/>
+    <circle cx="0" cy="0" r="14" fill="#D4AF37"/>
+  </g>
+  <text x="140" y="240" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="10">PUBLICACIÓN DIGITAL Y ARCHIVO DOCUMENTAL</text>
+  <text x="136" y="330" fill="#F4F1EA" font-family="Georgia, serif" font-size="78" letter-spacing="14">CÓDIGO ESTELAR</text>
+  <rect x="140" y="362" width="760" height="2" fill="url(#goldLine)"/>
+  <text x="140" y="415" fill="#C9C5BA" font-family="Helvetica, Arial, sans-serif" font-size="26" letter-spacing="2">Astronomía Cultural · Tradiciones Galácticas · Geometría Sagrada</text>
+</svg>

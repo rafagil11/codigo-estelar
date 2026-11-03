@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/static_runtime.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda Editorial &amp; Publicaciones Digitales · CÓDIGO ESTELAR</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="brand-logo-wrap">
+      <img src="assets/brand/isotipo.png" alt="Isotipo" />
+      <div>
+        <span class="brand-title">CÓDIGO ESTELAR</span>
+        <span class="brand-sub">TIENDA DIGITAL &amp; COLECCIÓN EDITORIAL (MXN)</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="test.html">Test de Resonancia</a>
+      <a href="tienda.html" class="active">Tienda Editorial</a>
+      <a href="#politicas">Políticas y Privacidad</a>
+      <a href="admin.html">Panel Admin</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div style="text-align:center; max-width:780px; margin:0 auto 2.4rem;">
+      <span class="badge badge-gold">PUBLICACIONES ORIGINALES · ENTREGA AUTOMÁTICA PROTEGIDA</span>
+      <h1 style="font-size:2.4rem; margin:0.6rem 0;">Ediciones Digitales &amp; Cartografía Personalizada</h1>
+      <p style="color:var(--nebula-gray);">
+        Obras diseñadas con rigor documental, ilustraciones originales y formato editorial de colección. Todos los precios están expresados en Pesos Mexicanos (MXN).
+      </p>
+    </div>
+
+    <!-- CATÁLOGO DE PRODUCTOS -->
+    <section class="grid-2" id="products-grid" style="margin-bottom:3rem;"></section>
+
+    <!-- MODAL / SECCIÓN DE CHECKOUT Y GENERACIÓN DE ENTREGA -->
+    <section id="checkout-section" class="card-cosmic" style="max-width:760px; margin:0 auto 3rem; border-color:var(--gold-astrolabe); display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <span class="badge badge-gold" id="payment-mode-badge">MODO PRUEBA SANDBOX SEGURO (SIN CARGO REAL)</span>
+        <button class="btn-outline" style="padding:0.35rem 0.85rem; font-size:0.75rem;" onclick="closeCheckout()">Cerrar</button>
+      </div>
+      <h2 id="checkout-title" style="font-size:1.8rem; margin-bottom:0.3rem;">Finalizar Pedido Digital</h2>
+      <p id="checkout-price" style="color:var(--gold-soft); font-size:1.25rem; font-weight:700; margin-bottom:1rem;"></p>
+
+      <div style="background:rgba(5,7,14,0.8); padding:0.9rem 1.1rem; border-radius:10px; border:1px solid var(--gold-border); font-size:0.84rem; color:var(--nebula-gray); margin-bottom:1.1rem;">
+        🔒 <strong>Seguridad PCI-DSS:</strong> Esta tienda nunca almacena números de tarjeta directamente. Cuando se conectan las credenciales de producción de <strong>Stripe México</strong> o <strong>Mercado Pago</strong> en el Panel de Administración, el cobro se procesa mediante redirección oficial firmada por Webhook. En este entorno local puedes probar todo el flujo de compra y generación dinámica de PDF en modo Sandbox.
+      </div>
+
+      <form id="checkout-form" onsubmit="processCheckout(event)">
+        <input type="hidden" id="checkout-product-id" />
+        <input type="hidden" id="checkout-submission-id" />
+
+        <label>Nombre Completo (Aparecerá en la portada de tu Informe Personalizado) *</label>
+        <input type="text" id="checkout-name" required placeholder="Ej. Elena Valdés" />
+
+        <label>Correo Electrónico para Entrega y Recibo *</label>
+        <input type="email" id="checkout-email" required placeholder="tu@correo.com" />
+
+        <div id="custom-lineage-selector" style="margin-top:0.85rem;">
+          <label>Tu Resonancia Dominante (Para personalizar tu Informe PDF si no vienes directo del Test)</label>
+          <select id="checkout-lineage">
+            <option value="pleyadianos">Resonancia Pleyadiana (M45 · Inteligencia del Corazón)</option>
+            <option value="andromedanos">Resonancia Andromedana (M31 · Libertad y Soberanía)</option>
+            <option value="sirianos">Resonancia Siriana (Sirio A/B · Custodia del Conocimiento)</option>
+            <option value="arcturianos">Resonancia Arcturiana (Alpha Boötis · Geometría Sagrada)</option>
+            <option value="liranos">Resonancia Lirana (Vega · Coraje y Semilla Primordial)</option>
+            <option value="orionitas">Resonancia con Orión (Cinturón/Mintaka · Alquimia de Opuestos)</option>
+          </select>
+        </div>
+
+        <label style="display:flex; align-items:flex-start; gap:0.6rem; margin-top:1.1rem; cursor:pointer; color:var(--pearl-white);">
+          <input type="checkbox" id="checkout-terms" required checked style="width:18px; height:18px; margin-top:3px;" />
+          <span>Acepto los Términos Comerciales, Política de Devoluciones y Aviso de Privacidad. Entiendo que los productos constituyen obras editoriales y de entretenimiento espiritual simbólico. *</span>
+        </label>
+
+        <div style="margin-top:1.4rem;">
+          <button type="submit" class="btn-gold" id="checkout-submit-btn" style="width:100%;">
+            Confirmar Pedido y Generar Descarga Inmediata →
+          </button>
+        </div>
+      </form>
+
+      <!-- CAJA DE CONFIRMACIÓN Y DESCARGA DE ARCHIVOS REALES -->
+      <div id="order-confirmation" style="display:none; margin-top:1.5rem; padding:1.4rem; background:rgba(56,201,133,0.12); border:1px solid var(--emerald-ok); border-radius:12px;">
+        <span class="badge badge-ok">✓ PEDIDO CONFIRMADO Y ARCHIVO GENERADO</span>
+        <h3 style="margin:0.5rem 0;" id="conf-order-number"></h3>
+        <p style="font-size:0.92rem; color:var(--nebula-gray); margin-bottom:1rem;" id="conf-message"></p>
+        <div style="display:flex; gap:0.9rem; flex-wrap:wrap;" id="conf-download-links"></div>
+      </div>
+    </section>
+
+    <!-- POLÍTICAS COMERCIALES, TÉRMINOS, SOPORTE Y AVISO DE PRIVACIDAD -->
+    <section id="politicas" class="card-cosmic" style="margin-top:2rem;">
+      <span class="badge badge-gold">TRANSPARENCIA COMERCIAL Y CUMPLIMIENTO NORMATIVO (MÉXICO)</span>
+      <h2 style="font-size:1.75rem; margin:0.5rem 0 1rem;">Términos de Uso, Política de Devolución, Privacidad y Soporte</h2>
+      <div class="grid-3" style="font-size:0.88rem; color:var(--nebula-gray);">
+        <div>
+          <h3 style="font-size:1.1rem; color:var(--gold-soft); margin-bottom:0.4rem;">1. Naturaleza de los Productos</h3>
+          <p>
+            Todas las publicaciones de <strong>CÓDIGO ESTELAR</strong> (incluyendo el Ebook <em>Atlas de los Linajes Estelares</em>, el Test Interactivo y el <em>Informe Personalizado</em>) son obras editoriales, culturales y de entretenimiento espiritual/autoconocimiento simbólico. No constituyen diagnósticos médicos, psicológicos ni pruebas científicas de origen biológico.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size:1.1rem; color:var(--gold-soft); margin-bottom:0.4rem;">2. Entregas y Garantía de Satisfacción</h3>
+          <p>
+            La entrega digital es inmediata tras la confirmación del pago mediante enlace único protegido. Si experimentas cualquier inconveniente técnico con la descarga o visualización de tu archivo PDF/EPUB, o solicitas reembolso dentro de los primeros 7 días naturales, nuestro equipo de soporte atiende en <code>codigoestelar333@gmail.com</code>.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size:1.1rem; color:var(--gold-soft); margin-bottom:0.4rem;">3. Privacidad y Baja de Suscripción</h3>
+          <p>
+            Tus datos personales se tratan conforme a la legislación aplicable de protección de datos. El consentimiento para comunicaciones promocionales es estrictamente opcional y separado. Puedes solicitar la baja inmediata de tu correo aquí mismo:
+          </p>
+          <div style="margin-top:0.65rem; display:flex; gap:0.5rem;">
+            <input type="email" id="unsub-email" placeholder="tu@correo.com" style="margin-top:0; padding:0.45rem 0.7rem; font-size:0.82rem;" />
+            <button class="btn-outline" style="padding:0.45rem 0.9rem; font-size:0.75rem;" onclick="unsubscribeEmail()">Dar de Baja</button>
+          </div>
+          <p id="unsub-msg" style="font-size:0.78rem; color:var(--emerald-ok); margin-top:0.35rem;"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let catalog = [];
+
+    async function loadStore() {
+      const res = await fetch('/api/store/products');
+      const data = await res.json();
+      catalog = data.products || [];
+
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = catalog.map(p => {
+        const features = JSON.parse(p.features_json || '[]');
+        const isFree = p.price_mxn === 0;
+        return `
+          <article class="card-cosmic" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; gap:1.2rem; align-items:flex-start; margin-bottom:1rem; flex-wrap:wrap;">
+                <img src="${p.cover_image_path}" alt="${p.title}" style="width:120px; height:165px; object-fit:cover; border-radius:10px; border:1px solid var(--gold-astrolabe);" />
+                <div style="flex:1; min-width:200px;">
+                  <span class="badge badge-gold">${p.product_type.toUpperCase()}</span>
+                  <h2 style="font-size:1.45rem; margin:0.4rem 0;">${p.title}</h2>
+                  <p style="font-size:0.86rem; color:var(--nebula-gray); font-style:italic;">${p.subtitle}</p>
+                  <div style="margin-top:0.65rem;">
+                    <span style="font-size:1.65rem; font-weight:700; color:var(--gold-soft);">
+                      ${isFree ? 'GRATUITO' : '$' + Number(p.price_mxn).toFixed(0) + ' MXN'}
+                    </span>
+                    ${p.compare_at_price_mxn > p.price_mxn ? `<span style="text-decoration:line-through; color:var(--muted-gray); font-size:0.9rem; margin-left:0.5rem;">$${p.compare_at_price_mxn} MXN</span>` : ''}
+                  </div>
+                </div>
+              </div>
+              <p style="font-size:0.92rem; color:var(--pearl-white); margin-bottom:0.9rem;">${p.description_long}</p>
+              <ul style="font-size:0.86rem; color:var(--nebula-gray); margin-left:1.2rem; margin-bottom:1.3rem;">
+                ${features.map(f => `<li>${f}</li>`).join('')}
+              </ul>
+            </div>
+            <div>
+              ${isFree
+                ? `<a href="test.html" class="btn-outline" style="width:100%;">Iniciar Experiencia Interactiva Gratuita →</a>`
+                : `<button class="btn-gold" style="width:100%;" onclick="openCheckout('${p.slug}')">Adquirir Ahora ($${Number(p.price_mxn).toFixed(0)} MXN) →</button>`
+              }
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      const params = new URLSearchParams(window.location.search);
+      const preselectSlug = params.get('product');
+      const preName = params.get('name');
+      const preSubId = params.get('submission_id');
+      if (preName) document.getElementById('checkout-name').value = preName;
+      if (preSubId) document.getElementById('checkout-submission-id').value = preSubId;
+      if (preselectSlug) {
+        openCheckout(preselectSlug);
+      }
+    }
+
+    function openCheckout(slug) {
+      const prod = catalog.find(p => p.slug === slug);
+      if (!prod) return;
+      document.getElementById('checkout-product-id').value = prod.id;
+      document.getElementById('checkout-title').textContent = prod.title;
+      document.getElementById('checkout-price').textContent = `Total: $${Number(prod.price_mxn).toFixed(2)} MXN (Impuestos incluidos)`;
+      document.getElementById('order-confirmation').style.display = 'none';
+      document.getElementById('checkout-section').style.display = 'block';
+      document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-section').style.display = 'none';
+    }
+
+    async function processCheckout(e) {
+      e.preventDefault();
+      const btn = document.getElementById('checkout-submit-btn');
+      btn.textContent = 'Procesando y Generando tu PDF Editorial...';
+      btn.disabled = true;
+
+      const payload = {
+        product_id: document.getElementById('checkout-product-id').value,
+        customer_name: document.getElementById('checkout-name').value.trim(),
+        customer_email: document.getElementById('checkout-email').value.trim(),
+        quiz_submission_id: document.getElementById('checkout-submission-id').value.trim() || null,
+        selected_lineage: document.getElementById('checkout-lineage').value,
+        terms_accepted: document.getElementById('checkout-terms').checked
+      };
+
+      try {
+        const res = await fetch('/api/store/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        const conf = document.getElementById('order-confirmation');
+        conf.style.display = 'block';
+        document.getElementById('conf-order-number').textContent = `Pedido #${data.order.order_number} · Estado: ${data.order.payment_status.toUpperCase()}`;
+        document.getElementById('conf-message').textContent = `Tu entrega digital ha sido preparada para ${data.order.customer_name}. Puedes abrir y descargar tus archivos PDF reales a continuación:`;
+
+        let linksHtml = '';
+        if (data.order.custom_deliverable_path) {
+          linksHtml += `<a href="${data.order.custom_deliverable_path}" target="_blank" class="btn-gold">⬇ Descargar mi Informe Personalizado (PDF)</a>`;
+        }
+        if (data.product_deliverable && data.product_deliverable !== data.order.custom_deliverable_path) {
+          linksHtml += `<a href="${data.product_deliverable}" target="_blank" class="btn-outline">⬇ Descargar Ebook Atlas de los Linajes (62 págs PDF)</a>`;
+        }
+        document.getElementById('conf-download-links').innerHTML = linksHtml;
+      } catch (err) {
+        alert('Error al procesar el pedido: ' + err.message);
+      } finally {
+        btn.textContent = 'Confirmar Pedido y Generar Descarga Inmediata →';
+        btn.disabled = false;
+      }
+    }
+
+    async function unsubscribeEmail() {
+      const email = document.getElementById('unsub-email').value.trim();
+      if (!email) return;
+      const res = await fetch('/api/public/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      document.getElementById('unsub-msg').textContent = data.message;
+    }
+
+    loadStore();
+  </script>
+</body>
+</html>

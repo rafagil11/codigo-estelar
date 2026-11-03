@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+    <defs>
+      <radialGradient id="g_orionitas" cx="50%" cy="44%" r="65%">
+        <stop offset="0%" stop-color="#19223B"/>
+        <stop offset="65%" stop-color="#060810"/>
+        <stop offset="100%" stop-color="#04060B"/>
+      </radialGradient>
+    </defs>
+    <rect width="1080" height="1350" fill="url(#g_orionitas)"/>
+    <rect x="56" y="56" width="968" height="1238" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.5"/>
+    <text x="540" y="135" text-anchor="middle" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="19" letter-spacing="8">CÓDIGO ESTELAR · ARCHIVO CARTOGRÁFICO</text>
+    <g transform="translate(540,585)">
+      <g stroke="#D4AF37" stroke-width="2.2" fill="none">
+      <polygon points="-140,-210 140,-210 55,0 140,210 -140,210 -55,0" stroke="#8FA8FF" stroke-width="2.5"/>
+      <circle cx="-68" cy="22" r="11" fill="#F4F1EA"/>
+      <circle cx="0" cy="0" r="13" fill="#D4AF37"/>
+      <circle cx="68" cy="-22" r="11" fill="#F4F1EA"/>
+      <circle cx="-140" cy="-210" r="14" fill="#FF7B54"/>
+      <circle cx="140" cy="210" r="14" fill="#76B4FF"/>
+      <circle cx="0" cy="0" r="245" stroke-opacity="0.35"/>
+    </g>
+    </g>
+    <text x="540" y="1045" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="36" letter-spacing="4">ORIONITAS (BETELGEUSE, RIGEL &amp; EL CINTURÓN)</text>
+    <text x="540" y="1105" text-anchor="middle" fill="#8FA8FF" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="2">Alquimia de la Polaridad · Integración de Opuestos y el Cinturón de Alnitak-Alnilam-Mintaka</text>
+    <text x="540" y="1230" text-anchor="middle" fill="#9A968E" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3">CLASIFICACIÓN DOCUMENTAL: ASTRONOMÍA [A] · MITOLOGÍA [B] · TRADICIÓN ESOTÉRICA [C]</text>
+  </svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+  <defs>
+    <radialGradient id="carBg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#181236"/>
+      <stop offset="65%" stop-color="#090D1E"/>
+      <stop offset="100%" stop-color="#05070E"/>
+    </radialGradient>
+  </defs>
+  <rect width="1080" height="1350" fill="url(#carBg)"/>
+  <rect x="64" y="64" width="952" height="1222" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.45"/>
+  <text x="110" y="135" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="7">EXPEDIENTE ESTELAR · 01 / 07</text>
+  <circle cx="540" cy="560" r="220" fill="none" stroke="#D4AF37" stroke-width="2" stroke-opacity="0.5"/>
+  <polygon points="540,350 580,520 750,560 580,600 540,770 500,600 330,560 500,520" fill="none" stroke="#F4F1EA" stroke-width="2" stroke-opacity="0.7"/>
+  <text x="540" y="960" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="52" letter-spacing="3">CARRUSEL EDITORIAL 4:5</text>
+  <text x="540" y="1030" text-anchor="middle" fill="#C9C5BA" font-family="Helvetica, Arial, sans-serif" font-size="28">Diseño de alta retención y guardados orgánicos</text>
+  <text x="960" y="1235" text-anchor="end" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="4">DESLIZA →</text>
+</svg>

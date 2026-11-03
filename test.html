@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/static_runtime.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descubre tu Resonancia Estelar · Test Interactivo Oficial · CÓDIGO ESTELAR</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: rgba(8, 12, 28, 0.85);
+      border: 1px solid var(--gold-border);
+      color: var(--pearl-white);
+      padding: 1.05rem 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      cursor: pointer;
+      font-size: 0.96rem;
+      transition: all 0.18s ease;
+    }
+    .quiz-option:hover, .quiz-option.selected {
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.22) 0%, rgba(94, 67, 182, 0.24) 100%);
+      border-color: var(--gold-astrolabe);
+      transform: translateX(4px);
+    }
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 1rem 0 1.6rem;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #5E43B6, #D4AF37);
+      width: 14%;
+      transition: width 0.3s ease;
+    }
+    .bar-row {
+      margin-bottom: 0.65rem;
+    }
+    .bar-fill {
+      height: 10px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #5E43B6, #D4AF37);
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="brand-logo-wrap">
+      <img src="assets/brand/isotipo.png" alt="Isotipo" />
+      <div>
+        <span class="brand-title">CÓDIGO ESTELAR</span>
+        <span class="brand-sub">EXPERIENCIA INTERACTIVA DE AUTOCONOCIMIENTO</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="test.html" class="active">Test Interactivo</a>
+      <a href="tienda.html">Tienda Digital</a>
+      <a href="admin.html">Panel Admin</a>
+    </nav>
+  </header>
+
+  <main class="container" style="max-width: 860px;">
+    <!-- AVISO DE RECUPERACIÓN SI HAY PROGRESO GUARDADO -->
+    <div id="recovery-banner" class="card-cosmic" style="display:none; margin-bottom:1.2rem; padding:1rem 1.3rem; border-color:var(--gold-astrolabe);">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem;">
+        <span style="font-size:0.9rem; color:var(--gold-soft);">✦ Encontramos una exploración en curso en tu dispositivo. ¿Deseas continuar donde te quedaste?</span>
+        <button class="btn-outline" style="padding:0.4rem 0.9rem; font-size:0.76rem;" onclick="resetQuiz()">Reiniciar desde cero</button>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR DE PREGUNTAS PASO A PASO -->
+    <section id="quiz-step-card" class="card-cosmic">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span class="badge badge-gold" id="step-indicator">DIMENSIÓN SIMBÓLICA 1 DE 7</span>
+        <span style="font-size:0.8rem; color:var(--muted-gray);">Cálculo 100% Determinista</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="quiz-progress"></div>
+      </div>
+
+      <h1 id="question-title" style="font-size:1.75rem; margin-bottom:0.4rem;">Cargando experiencia estelar...</h1>
+      <p id="question-subtitle" style="color:var(--nebula-gray); font-size:0.95rem; margin-bottom:1.4rem;"></p>
+
+      <div id="options-container"></div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:1.2rem;">
+        <button id="prev-btn" class="btn-outline" style="visibility:hidden;" onclick="prevStep()">← Anterior</button>
+        <span style="font-size:0.78rem; color:var(--muted-gray); align-self:center;">Mapa de Resonancia del Alma · @codigoestelar333</span>
+      </div>
+    </section>
+
+    <!-- PASO DE CONSENTIMIENTO TRANSPARENTE ANTES DE REVELAR EL PERFIL -->
+    <section id="consent-card" class="card-cosmic" style="display:none;">
+      <span class="badge badge-ok">DIMENSIONES COMPLETADAS · LECTURA LISTA</span>
+      <h2 style="font-size:1.95rem; margin:0.7rem 0;">Tu Carta de Resonancia Estelar está Lista</h2>
+      <p style="color:var(--nebula-gray); margin-bottom:1.2rem;">
+        Indica tu nombre o alias espiritual para personalizar el encabezado de tu lectura estelar.
+      </p>
+
+      <form id="lead-form" onsubmit="submitQuiz(event)">
+        <label>Tu Nombre o Alias Espiritual *</label>
+        <input type="text" id="participant-name" required placeholder="Ej. Elena Valdés" value="" />
+
+        <label>Correo Electrónico (Opcional — para enviarte copia de tu lectura y guía)</label>
+        <input type="email" id="participant-email" placeholder="tu@correo.com (Opcional)" />
+
+        <div style="margin-top:1.1rem; padding:1rem; background:rgba(5,7,14,0.75); border-radius:10px; border:1px solid var(--gold-border);">
+          <label style="display:flex; align-items:flex-start; gap:0.65rem; margin-top:0; cursor:pointer; color:var(--pearl-white);">
+            <input type="checkbox" id="privacy-accepted" required checked style="width:18px; height:18px; margin-top:3px;" />
+            <span>Acepto el <strong>Aviso de Privacidad</strong> para generar mi Carta de Resonancia Estelar personalizada. *</span>
+          </label>
+
+          <label style="display:flex; align-items:flex-start; gap:0.65rem; margin-top:0.75rem; cursor:pointer; color:var(--nebula-gray);">
+            <input type="checkbox" id="marketing-consent" style="width:18px; height:18px; margin-top:3px;" />
+            <span><em>(Opcional)</em> Deseo recibir las nuevas crónicas de linajes estelares y guías especiales de Código Estelar.</span>
+          </label>
+        </div>
+
+        <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+          <button type="submit" class="btn-gold">✦ Revelar mi Resonancia Estelar Ahora</button>
+          <button type="button" class="btn-outline" onclick="backToLastQuestion()">Revisar respuestas</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- PÁGINA DE RESULTADOS COMPLETA Y OFERTA PERSONALIZADA -->
+    <section id="result-card" class="card-cosmic" style="display:none;">
+      <div style="text-align:center; margin-bottom:1.8rem;">
+        <span class="badge badge-gold" id="res-badge">EXPEDIENTE ARQUETÍPICO DETERMINISTA</span>
+        <h1 id="res-title" style="font-size:2.3rem; margin:0.6rem 0;"></h1>
+        <p id="res-archetype" style="color:var(--gold-soft); font-family:Georgia, serif; font-size:1.3rem; font-style:italic;"></p>
+      </div>
+
+      <div class="grid-2" style="align-items:start; margin-bottom:1.8rem;">
+        <div style="text-align:center;">
+          <img id="res-image" src="" alt="Ilustración de Linaje" style="width:100%; max-width:360px; border-radius:14px; border:1px solid var(--gold-astrolabe); box-shadow:0 14px 36px rgba(0,0,0,0.65);" />
+          <div style="margin-top:1rem; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+            <button class="btn-outline" style="font-size:0.78rem; padding:0.55rem 1rem;" onclick="downloadStoryCard()">
+              📲 Descargar Tarjeta para Instagram Stories (9:16)
+            </button>
+            <button class="btn-outline" style="font-size:0.78rem; padding:0.55rem 1rem;" onclick="resetQuiz()">
+              Repetir Exploración
+            </button>
+          </div>
+          <canvas id="story-canvas" width="1080" height="1920" style="display:none;"></canvas>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom:0.5rem; color:var(--gold-astrolabe);">Tu Frecuencia y Misión del Alma</h3>
+          <p id="res-description" style="color:var(--pearl-white); margin-bottom:1rem;"></p>
+
+          <h4 style="color:var(--gold-soft); font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em;">Legado y Conexión Galáctica</h4>
+          <p id="res-tradition" style="color:var(--nebula-gray); font-size:0.92rem; margin-bottom:1rem;"></p>
+
+          <h4 style="color:var(--gold-soft); font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.45rem;">Valores Asociados</h4>
+          <div id="res-values" style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.2rem;"></div>
+
+          <h4 style="color:var(--gold-soft); font-size:0.9rem; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.6rem;">Desglose Matemático de tus 6 Dimensiones</h4>
+          <div id="res-bars"></div>
+        </div>
+      </div>
+
+      <!-- OFERTA COMERCIAL CONTEXTUALIZADA EN EL EMBUDO -->
+      <div style="background:linear-gradient(135deg, rgba(43,22,84,0.65), rgba(11,16,38,0.95)); border:1px solid var(--gold-astrolabe); border-radius:14px; padding:1.6rem; margin-top:1.5rem;">
+        <span class="badge badge-gold">SIGUIENTE PASO RECOMENDADO PARA TU PERFIL</span>
+        <h3 style="font-size:1.55rem; margin:0.5rem 0;" id="offer-heading">Obtén tu Informe Personalizado de Resonancia en PDF + el Atlas Estelar</h3>
+        <p style="color:var(--nebula-gray); font-size:0.95rem; margin-bottom:1.2rem;">
+          Nuestro motor editorial puede generar ahora mismo un <strong>Informe PDF de 6 páginas personalizado con tu nombre</strong> que profundiza en la sinergia entre tu arquetipo primario y secundario, o puedes adquirir el Ebook completo de 62 páginas <strong>«Atlas de los Linajes Estelares»</strong>.
+        </p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+          <a id="cta-custom-report" href="tienda.html?product=informe-personalizado-resonancia" class="btn-gold">
+            Generar mi Informe Personalizado PDF ($349 MXN) →
+          </a>
+          <a href="tienda.html?product=atlas-linajes-estelares" class="btn-outline">
+            Ver Ebook «Atlas de los Linajes Estelares» ($199 MXN)
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let questions = [];
+    let currentStep = 0;
+    let answers = {};
+    let lastResult = null;
+    const STORAGE_KEY = 'ce_quiz_state_v1';
+
+    async function initQuiz() {
+      const res = await fetch('/api/quiz/questions');
+      const data = await res.json();
+      questions = data.questions || [];
+
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.answers && Object.keys(parsed.answers).length > 0) {
+            answers = parsed.answers;
+            currentStep = Math.min(parsed.currentStep || 0, questions.length - 1);
+            document.getElementById('recovery-banner').style.display = 'block';
+          }
+        } catch (_) {}
+      }
+      renderQuestion();
+    }
+
+    function saveProgress() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ currentStep, answers, updatedAt: Date.now() }));
+    }
+
+    function renderQuestion() {
+      const q = questions[currentStep];
+      if (!q) return;
+      document.getElementById('quiz-step-card').style.display = 'block';
+      document.getElementById('consent-card').style.display = 'none';
+      document.getElementById('result-card').style.display = 'none';
+
+      document.getElementById('step-indicator').textContent = `DIMENSIÓN SIMBÓLICA ${currentStep + 1} DE ${questions.length}`;
+      const pct = Math.round(((currentStep + 1) / questions.length) * 100);
+      document.getElementById('quiz-progress').style.width = `${pct}%`;
+
+      document.getElementById('question-title').textContent = q.title;
+      document.getElementById('question-subtitle').textContent = q.subtitle;
+      document.getElementById('prev-btn').style.visibility = currentStep > 0 ? 'visible' : 'hidden';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = q.options.map(opt => {
+        const isSel = answers[q.id] === opt.id ? 'selected' : '';
+        return `<button type="button" class="quiz-option ${isSel}" onclick="selectOption('${q.id}', '${opt.id}')">${opt.label}</button>`;
+      }).join('');
+    }
+
+    function selectOption(qId, optId) {
+      answers[qId] = optId;
+      saveProgress();
+      if (currentStep < questions.length - 1) {
+        currentStep++;
+        renderQuestion();
+      } else {
+        document.getElementById('quiz-step-card').style.display = 'none';
+        document.getElementById('consent-card').style.display = 'block';
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        renderQuestion();
+      }
+    }
+
+    function backToLastQuestion() {
+      currentStep = questions.length - 1;
+      renderQuestion();
+    }
+
+    function resetQuiz() {
+      localStorage.removeItem(STORAGE_KEY);
+      answers = {};
+      currentStep = 0;
+      document.getElementById('recovery-banner').style.display = 'none';
+      renderQuestion();
+    }
+
+    async function submitQuiz(e) {
+      e.preventDefault();
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        participant_name: document.getElementById('participant-name').value.trim(),
+        email: document.getElementById('participant-email').value.trim(),
+        privacy_accepted: document.getElementById('privacy-accepted').checked,
+        marketing_consent: document.getElementById('marketing-consent').checked,
+        answers,
+        utm_source: params.get('utm_source') || 'instagram_bio',
+        utm_campaign: params.get('utm_campaign') || 'test_resonancia'
+      };
+
+      const res = await fetch('/api/quiz/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      lastResult = { ...data, participant_name: payload.participant_name };
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById('recovery-banner').style.display = 'none';
+      showResult(lastResult);
+    }
+
+    function showResult(data) {
+      document.getElementById('consent-card').style.display = 'none';
+      document.getElementById('result-card').style.display = 'block';
+
+      const prof = data.result.profile;
+      const primarySlug = data.result.primary_civilization || 'pleyadianos';
+      document.getElementById('res-title').textContent = prof.title;
+      document.getElementById('res-archetype').textContent = `«${prof.archetype}» · Lectura para ${data.participant_name}`;
+      document.getElementById('res-image').src = `assets/races_packs/${primarySlug}/lamina_01.png`;
+      document.getElementById('res-description').textContent = prof.description;
+      document.getElementById('res-tradition').textContent = `${prof.tradition_story} Símbolo central: ${prof.symbolism}`;
+
+      document.getElementById('res-values').innerHTML = (prof.values || []).map(v =>
+        `<span class="badge badge-gold">${v}</span>`
+      ).join('');
+
+      document.getElementById('res-bars').innerHTML = (data.result.scores_breakdown || []).map(item => `
+        <div class="bar-row">
+          <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.2rem;">
+            <span style="text-transform:uppercase; letter-spacing:0.06em;">${item.key}</span>
+            <span style="color:var(--gold-soft);">${item.percentage}% (${item.rawScore} pts)</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.08); border-radius:6px; overflow:hidden;">
+            <div class="bar-fill" style="width:${Math.max(4, item.percentage)}%;"></div>
+          </div>
+        </div>
+      `).join('');
+
+      const reportBtn = document.getElementById('cta-custom-report');
+      reportBtn.href = `/tienda?product=informe-personalizado-resonancia&submission_id=${encodeURIComponent(data.submission_id)}&name=${encodeURIComponent(data.participant_name)}`;
+    }
+
+    function downloadStoryCard() {
+      if (!lastResult) return;
+      const canvas = document.getElementById('story-canvas');
+      const ctx = canvas.getContext('2d');
+      const prof = lastResult.result.profile;
+
+      const grad = ctx.createRadialGradient(540, 700, 100, 540, 960, 1100);
+      grad.addColorStop(0, '#231852');
+      grad.addColorStop(0.6, '#0B1026');
+      grad.addColorStop(1, '#05070E');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1080, 1920);
+
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(70, 140, 940, 1640);
+
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 26px Helvetica, Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('CÓDIGO ESTELAR · RESONANCIA ARQUETÍPICA', 540, 240);
+
+      ctx.fillStyle = '#F4F1EA';
+      ctx.font = '48px Georgia, serif';
+      ctx.fillText(lastResult.participant_name.toUpperCase(), 540, 340);
+
+      ctx.fillStyle = '#F3DF9B';
+      ctx.font = 'bold 42px Georgia, serif';
+      ctx.fillText(prof.title, 540, 440);
+
+      ctx.fillStyle = '#C9C5BA';
+      ctx.font = 'italic 32px Georgia, serif';
+      ctx.fillText(`«${prof.archetype}»`, 540, 510);
+
+      // Barras porcentuales en la tarjeta de Story
+      let y = 660;
+      (lastResult.result.scores_breakdown || []).forEach(b => {
+        ctx.fillStyle = '#F4F1EA';
+        ctx.font = '28px Helvetica, Arial, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(b.key.toUpperCase(), 160, y);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#D4AF37';
+        ctx.fillText(`${b.percentage}%`, 920, y);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.fillRect(160, y + 18, 760, 22);
+        ctx.fillStyle = '#D4AF37';
+        ctx.fillRect(160, y + 18, Math.max(20, (760 * b.percentage) / 100), 22);
+        y += 120;
+      });
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = '28px Helvetica, Arial, sans-serif';
+      ctx.fillText('Descubre tu Resonancia Estelar en @codigoestelar333', 540, 1660);
+
+      const link = document.createElement('a');
+      link.download = `Resonancia_Estelar_${lastResult.participant_name.replace(/\s+/g, '_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    initQuiz();
+  </script>
+</body>
+</html>

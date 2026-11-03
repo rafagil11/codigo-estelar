@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+    <defs>
+      <radialGradient id="g_zeta_reticulanos" cx="50%" cy="44%" r="65%">
+        <stop offset="0%" stop-color="#1E2833"/>
+        <stop offset="65%" stop-color="#070A0F"/>
+        <stop offset="100%" stop-color="#04060B"/>
+      </radialGradient>
+    </defs>
+    <rect width="1080" height="1350" fill="url(#g_zeta_reticulanos)"/>
+    <rect x="56" y="56" width="968" height="1238" fill="none" stroke="#C5B37A" stroke-width="1.5" stroke-opacity="0.5"/>
+    <text x="540" y="135" text-anchor="middle" fill="#C5B37A" font-family="Helvetica, Arial, sans-serif" font-size="19" letter-spacing="8">CÓDIGO ESTELAR · ARCHIVO CARTOGRÁFICO</text>
+    <g transform="translate(540,585)">
+      <g stroke="#9AD1D4" stroke-width="2" fill="none">
+      <circle cx="-85" cy="-40" r="95" stroke="#C5B37A"/>
+      <circle cx="85" cy="40" r="95" stroke="#9AD1D4"/>
+      <line x1="-85" y1="-40" x2="85" y2="40" stroke="#F4F1EA" stroke-width="2"/>
+      <line x1="-85" y1="-40" x2="-190" y2="-150" stroke-dasharray="4 4"/>
+      <line x1="85" y1="40" x2="195" y2="-95" stroke-dasharray="4 4"/>
+      <line x1="85" y1="40" x2="160" y2="180" stroke-dasharray="4 4"/>
+      <circle cx="-85" cy="-40" r="14" fill="#C5B37A"/>
+      <circle cx="85" cy="40" r="14" fill="#9AD1D4"/>
+    </g>
+    </g>
+    <text x="540" y="1045" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="36" letter-spacing="4">ZETA RETICULANOS (ZETA¹ &amp; ZETA² RETICULI)</text>
+    <text x="540" y="1105" text-anchor="middle" fill="#9AD1D4" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="2">Folklore Ufológico del Siglo XX · Mapa de Betty Hill y Arquetipo de la Mente Colmena</text>
+    <text x="540" y="1230" text-anchor="middle" fill="#9A968E" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3">CLASIFICACIÓN DOCUMENTAL: ASTRONOMÍA [A] · MITOLOGÍA [B] · TRADICIÓN ESOTÉRICA [C]</text>
+  </svg>

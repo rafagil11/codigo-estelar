@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/static_runtime.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Central de Administración · CÓDIGO ESTELAR OS</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+    .toast-bar {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #152A58, #0B1026);
+      border: 1px solid var(--gold-astrolabe);
+      color: var(--pearl-white);
+      padding: 0.9rem 1.35rem;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.65);
+      z-index: 9999;
+      display: none;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="brand-logo-wrap">
+      <img src="assets/brand/isotipo.png" alt="Isotipo" />
+      <div>
+        <span class="brand-title" id="admin-brand-header">CÓDIGO ESTELAR · OS</span>
+        <span class="brand-sub">CENTRO DE MANDO MULTIAGENTE, EDITORIAL Y COMERCIAL</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <span class="badge badge-ok" id="autopublish-indicator">Autopublicación: Modo Borrador Seguro</span>
+      <button class="btn-gold" style="padding:0.5rem 1.1rem; font-size:0.78rem;" onclick="triggerDailyOrchestrator()">
+        ⚡ Ejecutar Ciclo Diario de los 7 Agentes
+      </button>
+      <a href="index.html" target="_blank" class="btn-outline" style="padding:0.45rem 0.95rem; font-size:0.76rem;">Ver Portal Público ↗</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <!-- NAVEGACIÓN LATERAL DE LAS 10 SECCIONES OBLIGATORIAS + CENTRO DE AUTORIZACIÓN DIARIA -->
+    <aside class="admin-sidebar">
+      <button class="sidebar-btn active" onclick="switchTab('autorizar', this)">✅ Autorizar Día &amp; Corregir</button>
+      <button class="sidebar-btn" onclick="switchTab('inicio', this)">📊 1. Inicio &amp; KPIs</button>
+      <button class="sidebar-btn" onclick="switchTab('instagram', this)">📸 Kit Instagram &amp; Correo</button>
+      <button class="sidebar-btn" onclick="switchTab('agentes', this)">🤖 2. Agentes de IA (7)</button>
+      <button class="sidebar-btn" onclick="switchTab('contenido', this)">🎬 3. Contenido &amp; Videos</button>
+      <button class="sidebar-btn" onclick="switchTab('calendario', this)">📅 4. Calendario 30 Días</button>
+      <button class="sidebar-btn" onclick="switchTab('biblioteca', this)">🎨 5. Biblioteca Visual</button>
+      <button class="sidebar-btn" onclick="switchTab('conocimiento', this)">📚 6. Base de Conocimiento</button>
+      <button class="sidebar-btn" onclick="switchTab('productos', this)">💎 7. Productos Digitales</button>
+      <button class="sidebar-btn" onclick="switchTab('ventas', this)">🛒 8. Ventas &amp; Leads</button>
+      <button class="sidebar-btn" onclick="switchTab('finanzas', this)">💰 9. Finanzas &amp; Costos</button>
+      <button class="sidebar-btn" onclick="switchTab('configuracion', this)">⚙️ 10. Configuración</button>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL DEL PANEL -->
+    <main class="admin-main">
+      <!-- SECCIÓN 0 (PRINCIPAL): CENTRO DE AUTORIZACIÓN DIARIA Y CORRECCIÓN DE POSTS, HISTORIAS Y REELS -->
+      <section id="tab-autorizar" class="tab-pane active">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap; margin-bottom:1.2rem;">
+          <div>
+            <span class="badge badge-gold">CONTROL PREVIO A PUBLICACIÓN · GEMINI 2.5 PRO LORE VERIFICADO</span>
+            <h1 style="font-size:1.95rem; margin-top:0.3rem;">Centro de Autorización Diaria: Posts, Historias Destacadas y Reels</h1>
+            <p style="color:var(--silver-mist); font-size:0.93rem;">
+              Revisa aquí el <strong>Post Carrusel de 9 Láminas (1080×1350)</strong>, las <strong>9 Historias Destacadas (1080×1920)</strong> y el <strong>Reel Animado con Voz (MP4)</strong> de cada raza antes de subirlos a <strong>@codigoestelar333</strong>. Si deseas corregir cualquier texto, título o lámina, edítalo abajo y el motor volverá a renderizar la imagen y el video al instante.
+            </p>
+          </div>
+          <div style="display:flex; gap:0.6rem; align-items:center;">
+            <a href="https://www.instagram.com/codigoestelar333/" target="_blank" class="btn-outline" style="padding:0.55rem 1rem; font-size:0.8rem;">Abrir @codigoestelar333 ↗</a>
+          </div>
+        </div>
+
+        <!-- Selector de Día / Raza Estelar -->
+        <div id="daily-races-selector" style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1.4rem;"></div>
+
+        <!-- Contenedor Principal del Pack del Día Seleccionado -->
+        <div id="daily-pack-viewer"></div>
+      </section>
+
+      <!-- SECCIÓN 1: INICIO -->
+      <section id="tab-inicio" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.4rem; flex-wrap:wrap;">
+          <div>
+            <span class="badge badge-gold">RESUMEN EJECUTIVO EN TIEMPO REAL</span>
+            <h1 style="font-size:2rem; margin-top:0.3rem;">Estado Operativo de la Marca</h1>
+          </div>
+          <button class="btn-outline" onclick="loadAdminAll()">↻ Actualizar Datos</button>
+        </div>
+
+        <div class="grid-4" id="kpi-cards-grid" style="margin-bottom:2rem;"></div>
+
+        <div class="grid-2">
+          <div class="card-cosmic">
+            <h3 style="margin-bottom:0.8rem; color:var(--gold-soft);">Estado en Vivo de los 7 Agentes</h3>
+            <div id="home-agents-mini"></div>
+          </div>
+          <div class="card-cosmic">
+            <h3 style="margin-bottom:0.8rem; color:var(--gold-soft);">Piezas Piloto Renderizadas (1080×1920)</h3>
+            <div id="home-pilots-mini"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN ESPECIAL: KIT DE LANZAMIENTO INSTAGRAM Y CORREO OFICIAL -->
+      <section id="tab-instagram" class="tab-pane">
+        <span class="badge badge-gold">CUENTAS OFICIALES CONECTADAS · @CODIGOESTELAR333</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Cuentas Oficiales Activas: @codigoestelar333 + codigoestelar333@gmail.com</h1>
+
+        <div class="grid-2" style="margin-bottom:1.6rem;">
+          <div class="card-cosmic">
+            <span class="badge badge-ok">✓ CORREO OFICIAL ACTIVO</span>
+            <h3 style="font-size:1.35rem; margin:0.5rem 0;">Cuenta de Correo Registrada</h3>
+            <label>Correo Oficial del Negocio</label>
+            <input type="text" readonly value="codigoestelar333@gmail.com" onclick="this.select(); navigator.clipboard.writeText(this.value); showToast('Correo copiado al portapapeles');" />
+            <label>Nombre de Remitente Editorial</label>
+            <input type="text" readonly value="CÓDIGO ESTELAR · Archivo Galáctico" onclick="this.select(); navigator.clipboard.writeText(this.value); showToast('Remitente copiado');" />
+            <label>Firma de Correo Oficial (Clic para copiar)</label>
+            <textarea rows="3" readonly onclick="this.select(); navigator.clipboard.writeText(this.value); showToast('Firma copiada');">CÓDIGO ESTELAR · Archivo Galáctico & Sello Editorial
+Instagram: @codigoestelar333 | Contacto: codigoestelar333@gmail.com</textarea>
+          </div>
+
+          <div class="card-cosmic">
+            <span class="badge badge-ok">✓ CUENTA INSTAGRAM ACTIVA</span>
+            <h3 style="font-size:1.35rem; margin:0.5rem 0;">Configuración de @codigoestelar333</h3>
+            <label>Usuario Oficial (@handle)</label>
+            <input type="text" readonly value="@codigoestelar333" onclick="this.select(); navigator.clipboard.writeText(this.value); showToast('Usuario copiado');" />
+            <label>Nombre del Perfil (Copia y pega en Editar Perfil → Nombre)</label>
+            <input type="text" readonly value="CÓDIGO ESTELAR · Linajes Estelares & Conciencia" onclick="this.select(); navigator.clipboard.writeText(this.value); showToast('Nombre SEO copiado');" />
+            <label>Biografía Oficial (Haz clic para copiar las 4 líneas)</label>
+            <textarea rows="4" readonly onclick="this.select(); navigator.clipboard.writeText(this.value); showToast('Biografía copiada al portapapeles');">Archivo documental y visual de las tradiciones galácticas.
+✦ Astronomía · Mitología · Semillas Estelares · Geometría Sagrada
+✦ Autores, símbolos y cartografía de la conciencia
+↓ Descubre tu Resonancia Estelar (Test Gratuito):</textarea>
+          </div>
+        </div>
+
+        <div class="card-cosmic" style="margin-bottom:1.6rem;">
+          <span class="badge badge-gold">PASO 3 · ACTIVOS VISUALES LISTOS EN CARPETA «KIT_LANZAMIENTO_INSTAGRAM»</span>
+          <h3 style="font-size:1.35rem; margin:0.5rem 0;">Avatar HD, 5 Portadas de Destacadas, Carrusel Inaugural (6 Láminas) y 3 Reels MP4</h3>
+          <p style="font-size:0.9rem; color:var(--nebula-gray); margin-bottom:1rem;">
+            Todos los archivos están guardados en <code>/Users/rafaelgil/.gemini/antigravity/scratch/codigo-estelar/KIT_LANZAMIENTO_INSTAGRAM</code> listos para subir desde tu ordenador o enviar a tu móvil por AirDrop.
+          </p>
+          <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+            <a href="/assets/brand/isotipo.png" download="Foto_Perfil_Codigo_Estelar_1080x1080.png" class="btn-gold">⬇ Descargar Foto de Perfil HD</a>
+            <a href="/assets/videos/que-son-las-semillas-estelares.mp4" download="Reel_01_Semillas_Estelares.mp4" class="btn-outline">⬇ Descargar Reel #1 (MP4)</a>
+            <a href="/assets/videos/universo-simbolico-pleyadiano.mp4" download="Reel_02_Pleyadianos_M45.mp4" class="btn-outline">⬇ Descargar Reel #2 (MP4)</a>
+            <a href="/assets/videos/andromedanos-libertad-espiritual.mp4" download="Reel_03_Andromedanos_M31.mp4" class="btn-outline">⬇ Descargar Reel #3 (MP4)</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 2: AGENTES -->
+      <section id="tab-agentes" class="tab-pane">
+        <span class="badge badge-gold">ORQUESTADOR CENTRAL + 7 AGENTES ESPECIALIZADOS</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Gestión y Auditoría de Agentes de IA</h1>
+        <div class="grid-2" id="agents-full-grid" style="margin-bottom:2rem;"></div>
+
+        <div class="card-cosmic">
+          <h3 style="margin-bottom:0.9rem; color:var(--gold-soft);">Historial Reciente de Ejecuciones del Orquestador</h3>
+          <div style="overflow-x:auto;">
+            <table class="table-cosmic" id="agent-logs-table">
+              <thead>
+                <tr>
+                  <th>Fecha/Hora</th>
+                  <th>Agente</th>
+                  <th>Tarea</th>
+                  <th>Resultado</th>
+                  <th>Duración</th>
+                  <th>Costo (MXN)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 3: CONTENIDO -->
+      <section id="tab-contenido" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap;">
+          <div>
+            <span class="badge badge-gold">MOTOR EDITORIAL &amp; CONTROL DE CALIDAD (12 PUNTOS)</span>
+            <h1 style="font-size:2rem; margin-top:0.3rem;">Guiones, Storyboards y Videos Renderizados</h1>
+          </div>
+          <select id="content-filter" style="width:260px; margin-top:0;" onchange="renderContentList()">
+            <option value="all">Mostrar los 30 Contenidos</option>
+            <option value="with_video">Solo con Video MP4 Renderizado</option>
+            <option value="approved_ready">Aprobados por QC</option>
+            <option value="rejected">Rechazados / En revisión</option>
+          </select>
+        </div>
+
+        <div id="content-items-container"></div>
+      </section>
+
+      <!-- SECCIÓN 4: CALENDARIO -->
+      <section id="tab-calendario" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap;">
+          <div>
+            <span class="badge badge-gold">PLANIFICACIÓN DE 30 DÍAS (60% ATRACCIÓN · 25% EDUCACIÓN · 15% CONVERSIÓN)</span>
+            <h1 style="font-size:2rem; margin-top:0.3rem;">Calendario Editorial Mensual y Semanal</h1>
+          </div>
+        </div>
+        <div class="card-cosmic" style="overflow-x:auto;">
+          <table class="table-cosmic" id="calendar-table">
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Título y Tema</th>
+                <th>Formato</th>
+                <th>Embudo</th>
+                <th>Puntaje QC</th>
+                <th>Estado</th>
+                <th>Guardar Cambio</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 5: BIBLIOTECA VISUAL -->
+      <section id="tab-biblioteca" class="tab-pane">
+        <span class="badge badge-gold">AGENTE 3 · DIRECCIÓN DE ARTE Y CONTINUIDAD VISUAL</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Biblioteca Visual de Marca, Plantillas y Civilizaciones</h1>
+        <div class="grid-3" id="visual-library-grid"></div>
+      </section>
+
+      <!-- SECCIÓN 6: BASE DE CONOCIMIENTO -->
+      <section id="tab-conocimiento" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap;">
+          <div>
+            <span class="badge badge-gold">CLASIFICACIÓN EXPLÍCITA [A] ASTRONOMÍA · [B] MITOLOGÍA · [C] ESOTERISMO · [D] ESPECULACIÓN · [E] ARTE</span>
+            <h1 style="font-size:2rem; margin-top:0.3rem;">Base de Conocimiento de las 9 Civilizaciones</h1>
+          </div>
+          <input type="text" id="kb-search" placeholder="Buscar por estrella, autor, mito o símbolo..." style="width:320px; margin-top:0;" oninput="filterKnowledgeBase()" />
+        </div>
+        <div id="kb-container"></div>
+      </section>
+
+      <!-- SECCIÓN 7: PRODUCTOS -->
+      <section id="tab-productos" class="tab-pane">
+        <span class="badge badge-gold">ADMINISTRACIÓN COMERCIAL EN MXN</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Catálogo de Productos Digitales (Ebook, Test e Informes)</h1>
+        <div class="grid-2" id="admin-products-grid"></div>
+      </section>
+
+      <!-- SECCIÓN 8: VENTAS Y LEADS -->
+      <section id="tab-ventas" class="tab-pane">
+        <span class="badge badge-gold">EMBUDO INSTAGRAM → LANDING → TEST → EMAIL CONSENTIDO → COMPRA</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Pedidos, Entregas Protegidas y Leads del Test</h1>
+
+        <div class="card-cosmic" style="margin-bottom:1.8rem;">
+          <h3 style="color:var(--gold-soft); margin-bottom:0.8rem;">Pedidos y Entregas Generadas</h3>
+          <div style="overflow-x:auto;">
+            <table class="table-cosmic" id="orders-table">
+              <thead>
+                <tr>
+                  <th>Pedido #</th>
+                  <th>Cliente</th>
+                  <th>Email</th>
+                  <th>Monto (MXN)</th>
+                  <th>Estado</th>
+                  <th>Archivo Entregado</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card-cosmic">
+          <h3 style="color:var(--gold-soft); margin-bottom:0.8rem;">Participantes del Test «Descubre tu Resonancia Estelar» (Leads y Consentimiento)</h3>
+          <div style="overflow-x:auto;">
+            <table class="table-cosmic" id="leads-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Resonancia Primaria</th>
+                  <th>Secundaria</th>
+                  <th>Privacidad</th>
+                  <th>Marketing Opt-in</th>
+                  <th>Campaña UTM</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 9: FINANZAS -->
+      <section id="tab-finanzas" class="tab-pane">
+        <span class="badge badge-gold">CONTROL PRESUPUESTAL (OBJETIVO 3,000 MXN / MES)</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Finanzas, Costos por Pieza y Experimentos de Rentabilidad</h1>
+        <div class="grid-3" id="finance-summary-cards" style="margin-bottom:1.8rem;"></div>
+
+        <div class="card-cosmic" style="margin-bottom:1.8rem;">
+          <h3 style="color:var(--gold-soft); margin-bottom:0.8rem;">Experimentos Activos de Crecimiento y Conversión (Agente 6 &amp; 7)</h3>
+          <div id="experiments-list"></div>
+        </div>
+
+        <div class="card-cosmic">
+          <h3 style="color:var(--gold-soft); margin-bottom:0.8rem;">Libro Mayor de Movimientos (Ingresos y Gastos de IA/Infraestructura)</h3>
+          <div style="overflow-x:auto;">
+            <table class="table-cosmic" id="ledger-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Categoría</th>
+                  <th>Proveedor</th>
+                  <th>Descripción</th>
+                  <th>Monto (MXN)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 10: CONFIGURACIÓN -->
+      <section id="tab-configuracion" class="tab-pane">
+        <span class="badge badge-gold">GOBERNANZA DE MARCA, PRESUPUESTO Y CONEXIONES EXTERNAS</span>
+        <h1 style="font-size:2rem; margin:0.35rem 0 1.2rem;">Configuración General del Sistema</h1>
+
+        <form id="brand-settings-form" class="card-cosmic" onsubmit="saveBrandSettings(event)">
+          <div class="grid-2">
+            <div>
+              <h3 style="color:var(--gold-soft); margin-bottom:0.6rem;">1. Identidad de Marca (Editable sin romper el sistema)</h3>
+              <label>Nombre Oficial de la Marca</label>
+              <input type="text" id="cfg-brand-name" required />
+
+              <label>Subtítulo Editorial</label>
+              <input type="text" id="cfg-brand-subtitle" required />
+
+              <label>Usuario de Instagram (@handle)</label>
+              <input type="text" id="cfg-ig-handle" required />
+
+              <label>Dominio Web</label>
+              <input type="text" id="cfg-domain" required />
+
+              <label>Biografía de Instagram — Línea 1</label>
+              <input type="text" id="cfg-bio-1" />
+
+              <label>Biografía de Instagram — Llamada a la Acción (CTA)</label>
+              <input type="text" id="cfg-bio-cta" />
+            </div>
+
+            <div>
+              <h3 style="color:var(--gold-soft); margin-bottom:0.6rem;">2. Límites Financieros, Proveedores y Permisos</h3>
+              <label>Presupuesto Mensual Máximo (MXN)</label>
+              <input type="number" step="50" id="cfg-monthly-budget" required />
+
+              <label>Límite de Gasto Diario (MXN)</label>
+              <input type="number" step="10" id="cfg-daily-budget" required />
+
+              <label>Proveedor de Imágenes y Arte</label>
+              <select id="cfg-image-provider">
+                <option value="native_svg_cinema">Motor Vectorial Cinematográfico Local ($0 MXN)</option>
+                <option value="openai_dalle3">OpenAI DALL-E 3 / GPT-Image (Requiere API Key)</option>
+                <option value="replicate_flux">Flux.1 Pro vía API (Requiere API Key)</option>
+              </select>
+
+              <label>Proveedor de Composición de Video</label>
+              <select id="cfg-video-provider">
+                <option value="native_avfoundation">Motor Nativo Apple AVFoundation 1080×1920 ($0 MXN)</option>
+                <option value="remotion">Remotion / FFmpeg Render Cluster</option>
+                <option value="runway_gen3">Runway Gen-3 Alpha API (Requiere API Key)</option>
+              </select>
+
+              <label>Proveedor de Voz en Español (TTS)</label>
+              <select id="cfg-tts-provider">
+                <option value="macos_neural_es">Voz Nativa Español México Paulina ($0 MXN)</option>
+                <option value="elevenlabs">ElevenLabs Multilingual v2 API (Requiere API Key)</option>
+                <option value="openai_tts">OpenAI Audio TTS HD (Requiere API Key)</option>
+              </select>
+
+              <div style="margin-top:1.1rem; padding:1rem; background:rgba(5,7,14,0.8); border-radius:10px; border:1px solid var(--gold-border);">
+                <label style="display:flex; align-items:center; gap:0.6rem; margin-top:0; cursor:pointer; color:var(--pearl-white);">
+                  <input type="checkbox" id="cfg-auto-publish" style="width:18px; height:18px;" />
+                  <span><strong>Activar Autopublicación en Instagram Graph API</strong> (Desactívalo inmediatamente en cualquier momento)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:0.6rem; margin-top:0.6rem; cursor:pointer; color:var(--nebula-gray);">
+                  <input type="checkbox" id="cfg-paid-apis" style="width:18px; height:18px;" />
+                  <span>Autorizar consumo de APIs externas de pago (Sujeto al tope diario y mensual)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:1.5rem;">
+            <button type="submit" class="btn-gold">Guardar Configuración de Marca y Gobernanza</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast-bar"></div>
+
+  <script>
+    let adminState = {
+      brand: {},
+      kpis: {},
+      agents: [],
+      agentLogs: [],
+      contents: [],
+      visuals: [],
+      civilizations: [],
+      products: [],
+      orders: [],
+      leads: [],
+      ledger: [],
+      experiments: []
+    };
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3600);
+    }
+
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    async function loadAdminAll() {
+      const res = await fetch('/api/admin/dashboard');
+      adminState = await res.json();
+      renderAllSections();
+    }
+
+    function renderAllSections() {
+      const b = adminState.brand || {};
+      const k = adminState.kpis || {};
+      document.getElementById('admin-brand-header').textContent = `${b.brand_name || 'CÓDIGO ESTELAR'} · OS`;
+      const autoInd = document.getElementById('autopublish-indicator');
+      if (b.auto_publish_enabled) {
+        autoInd.textContent = 'Autopublicación: AUTORIZADA (Requiere Token IG)';
+        autoInd.className = 'badge badge-gold';
+      } else {
+        autoInd.textContent = 'Autopublicación: Modo Borrador Seguro';
+        autoInd.className = 'badge badge-ok';
+      }
+
+      // 1. KPIs Inicio
+      document.getElementById('kpi-cards-grid').innerHTML = `
+        <div class="card-cosmic">
+          <div class="kpi-label">Piezas en Calendario (30d)</div>
+          <div class="kpi-number">${k.total_contents || 30}</div>
+          <div style="font-size:0.8rem; color:var(--emerald-ok);">${k.rendered_videos || 3} videos MP4 renderizados · ${k.approved_contents || 30} aprobados QC</div>
+        </div>
+        <div class="card-cosmic">
+          <div class="kpi-label">Leads del Test Estelar</div>
+          <div class="kpi-number">${k.total_leads || 0}</div>
+          <div style="font-size:0.8rem; color:var(--nebula-gray);">${k.marketing_optins || 0} con opt-in promocional</div>
+        </div>
+        <div class="card-cosmic">
+          <div class="kpi-label">Ingresos Acumulados</div>
+          <div class="kpi-number">$${Number(k.total_revenue_mxn || 0).toFixed(0)} <small style="font-size:0.9rem;">MXN</small></div>
+          <div style="font-size:0.8rem; color:var(--emerald-ok);">${k.total_orders || 0} pedidos completados</div>
+        </div>
+        <div class="card-cosmic">
+          <div class="kpi-label">Gasto Mensual IA / Presupuesto</div>
+          <div class="kpi-number">$${Number(k.monthly_expenses_mxn || 0).toFixed(0)} <small style="font-size:0.9rem;">/ $${Number(b.monthly_budget_mxn || 3000).toFixed(0)} MXN</small></div>
+          <div style="font-size:0.8rem; color:var(--gold-soft);">Utilidad neta: $${Number((k.total_revenue_mxn || 0) - (k.monthly_expenses_mxn || 0)).toFixed(0)} MXN</div>
+        </div>
+      `;
+
+      // Mini Agentes en Inicio
+      document.getElementById('home-agents-mini').innerHTML = (adminState.agents || []).map(ag => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0.55rem 0; border-bottom:1px solid rgba(212,175,55,0.14);">
+          <div>
+            <strong style="font-size:0.9rem;">${ag.name}</strong>
+            <div style="font-size:0.78rem; color:var(--nebula-gray);">${ag.last_result_summary || ag.current_task}</div>
+          </div>
+          <span class="badge ${ag.is_paused ? 'badge-warn' : 'badge-ok'}">${ag.is_paused ? 'PAUSADO' : 'OPERATIVO'}</span>
+        </div>
+      `).join('');
+
+      // Mini Pilotos en Inicio
+      const renderedItems = (adminState.contents || []).filter(c => c.video_asset_path);
+      document.getElementById('home-pilots-mini').innerHTML = renderedItems.map(c => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:0.6rem 0; border-bottom:1px solid rgba(212,175,55,0.14);">
+          <div>
+            <strong>Día ${c.day_number}: ${c.title}</strong>
+            <div style="font-size:0.78rem; color:var(--gold-soft);">Archivo: ${c.video_asset_path} · QC: ${c.qc_score_total}/100</div>
+          </div>
+          <a href="${c.video_asset_path}" target="_blank" class="btn-outline" style="padding:0.35rem 0.8rem; font-size:0.75rem;">▶ Reproducir MP4</a>
+        </div>
+      `).join('');
+
+      // 2. Agentes Completo
+      document.getElementById('agents-full-grid').innerHTML = (adminState.agents || []).map(ag => `
+        <div class="card-cosmic">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <span class="badge badge-gold">${ag.code}</span>
+            <span class="badge ${ag.is_paused ? 'badge-warn' : 'badge-ok'}">${ag.is_paused ? 'PAUSADO' : ag.status.toUpperCase()}</span>
+          </div>
+          <h3 style="font-size:1.3rem; margin-bottom:0.35rem;">${ag.name}</h3>
+          <p style="font-size:0.86rem; color:var(--nebula-gray); margin-bottom:0.8rem;">${ag.role_description}</p>
+          <div style="background:rgba(5,7,14,0.75); padding:0.75rem; border-radius:8px; font-size:0.82rem; margin-bottom:0.9rem;">
+            <div><strong>Última ejecución:</strong> ${ag.last_run_at || 'N/A'} (${ag.total_runs} ejecuciones)</div>
+            <div style="color:var(--gold-soft); margin-top:0.25rem;"><strong>Resultado:</strong> ${ag.last_result_summary || 'Listo'}</div>
+            <div><strong>Consumo acumulado:</strong> $${Number(ag.estimated_cost_mxn || 0).toFixed(2)} MXN · Errores: ${ag.error_count}</div>
+          </div>
+          <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+            <button class="btn-gold" style="padding:0.5rem 1rem; font-size:0.76rem;" onclick="runSingleAgent('${ag.id}')">▶ Ejecutar Ahora</button>
+            <button class="btn-outline" style="padding:0.5rem 1rem; font-size:0.76rem;" onclick="togglePauseAgent('${ag.id}', ${ag.is_paused ? 0 : 1})">
+              ${ag.is_paused ? 'Reanudar Agente' : '⏸ Pausar Agente'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelector('#agent-logs-table tbody').innerHTML = (adminState.agentLogs || []).map(l => `
+        <tr>
+          <td>${l.created_at}</td>
+          <td><strong>${l.agent_id}</strong></td>
+          <td>${l.task_name}</td>
+          <td>${l.output_summary}</td>
+          <td>${l.duration_ms} ms</td>
+          <td>$${Number(l.cost_mxn).toFixed(2)}</td>
+        </tr>
+      `).join('');
+
+      // 3. Contenido
+      renderContentList();
+
+      // 4. Calendario 30 Días
+      document.querySelector('#calendar-table tbody').innerHTML = (adminState.contents || []).map(c => `
+        <tr>
+          <td><strong>Día ${c.day_number}</strong></td>
+          <td><input type="text" id="cal-date-${c.id}" value="${c.scheduled_date}" style="width:125px; margin:0; padding:0.35rem 0.5rem; font-size:0.82rem;" /></td>
+          <td><input type="text" id="cal-time-${c.id}" value="${c.scheduled_time}" style="width:82px; margin:0; padding:0.35rem 0.5rem; font-size:0.82rem;" /></td>
+          <td><strong>${c.title}</strong><br/><small style="color:var(--muted-gray);">[${c.epistemic_classification}]</small></td>
+          <td><span class="badge badge-gold">${c.format}</span></td>
+          <td>${c.funnel_category}</td>
+          <td><strong>${c.qc_score_total}/100</strong></td>
+          <td><span class="badge ${c.approval_status === 'approved_ready' ? 'badge-ok' : 'badge-warn'}">${c.approval_status}</span></td>
+          <td><button class="btn-outline" style="padding:0.35rem 0.75rem; font-size:0.74rem;" onclick="updateSchedule('${c.id}')">Guardar</button></td>
+        </tr>
+      `).join('');
+
+      // 5. Biblioteca Visual
+      document.getElementById('visual-library-grid').innerHTML = (adminState.visuals || []).map(v => `
+        <div class="card-cosmic">
+          <img src="${v.asset_path}" alt="${v.title}" style="width:100%; height:220px; object-fit:cover; border-radius:10px; border:1px solid var(--gold-border); margin-bottom:0.75rem;" />
+          <span class="badge badge-gold">${v.category.toUpperCase()}</span>
+          <h3 style="font-size:1.15rem; margin:0.4rem 0;">${v.title}</h3>
+          <p style="font-size:0.82rem; color:var(--nebula-gray); margin-bottom:0.5rem;">${v.visual_style_guide}</p>
+          <div style="font-size:0.75rem; color:var(--muted-gray); background:rgba(5,7,14,0.8); padding:0.55rem; border-radius:6px;">
+            <strong>Prompt Maestro:</strong> ${v.master_prompt}
+          </div>
+        </div>
+      `).join('');
+
+      // 6. Base de Conocimiento
+      filterKnowledgeBase();
+
+      // 7. Productos
+      document.getElementById('admin-products-grid').innerHTML = (adminState.products || []).map(p => `
+        <div class="card-cosmic">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="badge badge-gold">${p.product_type}</span>
+            <span class="badge badge-ok">${p.status}</span>
+          </div>
+          <h3 style="font-size:1.35rem; margin:0.45rem 0;">${p.title}</h3>
+          <p style="font-size:0.85rem; color:var(--nebula-gray); margin-bottom:0.8rem;">${p.description_short}</p>
+          <div style="display:flex; gap:0.8rem; align-items:flex-end; flex-wrap:wrap;">
+            <div style="width:150px;">
+              <label style="margin-top:0;">Precio (MXN)</label>
+              <input type="number" id="prod-price-${p.id}" value="${p.price_mxn}" style="margin-top:0.2rem;" />
+            </div>
+            <button class="btn-gold" style="padding:0.65rem 1.1rem; font-size:0.78rem;" onclick="updateProductPrice('${p.id}')">Actualizar Precio</button>
+            ${p.deliverable_file_path ? `<a href="${p.deliverable_file_path}" target="_blank" class="btn-outline" style="padding:0.6rem 1rem; font-size:0.76rem;">Abrir Archivo Entregable ↗</a>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      // 8. Ventas y Leads
+      document.querySelector('#orders-table tbody').innerHTML = (adminState.orders || []).map(o => `
+        <tr>
+          <td><strong>${o.order_number}</strong></td>
+          <td>${o.customer_name}</td>
+          <td>${o.customer_email}</td>
+          <td>$${Number(o.amount_mxn).toFixed(2)} MXN</td>
+          <td><span class="badge badge-ok">${o.payment_status}</span></td>
+          <td>${o.custom_deliverable_path ? `<a href="${o.custom_deliverable_path}" target="_blank">Descargar PDF ↗</a>` : 'Catálogo'}</td>
+          <td>${o.created_at}</td>
+        </tr>
+      `).join('');
+
+      document.querySelector('#leads-table tbody').innerHTML = (adminState.leads || []).map(l => `
+        <tr>
+          <td><strong>${l.participant_name}</strong></td>
+          <td>${l.email || '<em>Sin correo (Acceso libre)</em>'}</td>
+          <td><span class="badge badge-gold">${l.primary_resonance}</span></td>
+          <td>${l.secondary_resonance}</td>
+          <td>✓ Aceptado</td>
+          <td>${l.marketing_consent ? '<span class="badge badge-ok">Sí</span>' : 'No'}</td>
+          <td>${l.utm_source} / ${l.utm_campaign}</td>
+        </tr>
+      `).join('');
+
+      // 9. Finanzas
+      document.getElementById('finance-summary-cards').innerHTML = `
+        <div class="card-cosmic">
+          <div class="kpi-label">Presupuesto Mensual Objetivo</div>
+          <div class="kpi-number">$${Number(b.monthly_budget_mxn || 3000).toFixed(2)} MXN</div>
+          <div style="font-size:0.82rem; color:var(--nebula-gray);">Tope diario: $${Number(b.daily_budget_mxn || 120).toFixed(2)} MXN</div>
+        </div>
+        <div class="card-cosmic">
+          <div class="kpi-label">Costo de Producción Local por Video</div>
+          <div class="kpi-number">$0.00 MXN</div>
+          <div style="font-size:0.82rem; color:var(--emerald-ok);">Motor AVFoundation + Síntesis Paulina + SVG Cinema activo</div>
+        </div>
+        <div class="card-cosmic">
+          <div class="kpi-label">Costo Estimado con APIs Externas</div>
+          <div class="kpi-number">~$18.50 MXN <small style="font-size:0.8rem;">/ Reel</small></div>
+          <div style="font-size:0.82rem; color:var(--nebula-gray);">Si activas ElevenLabs + OpenAI Image en Configuración</div>
+        </div>
+      `;
+
+      document.getElementById('experiments-list').innerHTML = (adminState.experiments || []).map(ex => `
+        <div style="padding:0.85rem 0; border-bottom:1px solid rgba(212,175,55,0.15);">
+          <span class="badge badge-gold">${ex.dimension.toUpperCase()}</span>
+          <strong style="margin-left:0.5rem;">${ex.title}</strong>
+          <p style="font-size:0.85rem; color:var(--nebula-gray); margin-top:0.3rem;"><strong>Hipótesis:</strong> ${ex.hypothesis}</p>
+          <p style="font-size:0.8rem; color:var(--gold-soft);">Variante A: ${ex.variant_a} | Variante B: ${ex.variant_b}</p>
+        </div>
+      `).join('');
+
+      document.querySelector('#ledger-table tbody').innerHTML = (adminState.ledger || []).map(le => `
+        <tr>
+          <td>${le.entry_date}</td>
+          <td><span class="badge ${le.entry_type.includes('revenue') ? 'badge-ok' : 'badge-gold'}">${le.entry_type}</span></td>
+          <td>${le.category}</td>
+          <td>${le.provider}</td>
+          <td>${le.description}</td>
+          <td>$${Number(le.amount_mxn).toFixed(2)} MXN</td>
+        </tr>
+      `).join('');
+
+      // 10. Poblar formulario Configuración
+      document.getElementById('cfg-brand-name').value = b.brand_name || '';
+      document.getElementById('cfg-brand-subtitle').value = b.brand_subtitle || '';
+      document.getElementById('cfg-ig-handle').value = b.instagram_handle || '';
+      document.getElementById('cfg-domain').value = b.domain || '';
+      document.getElementById('cfg-bio-1').value = b.bio_line_1 || '';
+      document.getElementById('cfg-bio-cta').value = b.bio_cta || '';
+      document.getElementById('cfg-monthly-budget').value = b.monthly_budget_mxn || 3000;
+      document.getElementById('cfg-daily-budget').value = b.daily_budget_mxn || 120;
+      document.getElementById('cfg-image-provider').value = b.image_provider || 'native_svg_cinema';
+      document.getElementById('cfg-video-provider').value = b.video_provider || 'native_avfoundation';
+      document.getElementById('cfg-tts-provider').value = b.tts_provider || 'macos_neural_es';
+      document.getElementById('cfg-auto-publish').checked = Boolean(b.auto_publish_enabled);
+      document.getElementById('cfg-paid-apis').checked = Boolean(b.paid_apis_enabled);
+    }
+
+    function renderContentList() {
+      const filter = document.getElementById('content-filter').value;
+      let list = adminState.contents || [];
+      if (filter === 'with_video') list = list.filter(c => Boolean(c.video_asset_path));
+      else if (filter === 'approved_ready') list = list.filter(c => c.approval_status === 'approved_ready');
+      else if (filter === 'rejected') list = list.filter(c => c.approval_status === 'rejected');
+
+      document.getElementById('content-items-container').innerHTML = list.map(c => `
+        <div class="card-cosmic" style="margin-bottom:1.25rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; margin-bottom:0.6rem;">
+            <div>
+              <span class="badge badge-gold">DÍA ${c.day_number} · ${c.scheduled_date}</span>
+              <span class="badge badge-ok" style="margin-left:0.4rem;">QC: ${c.qc_score_total}/100</span>
+              <span class="badge badge-gold" style="margin-left:0.4rem;">[${c.epistemic_classification}]</span>
+            </div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn-outline" style="padding:0.38rem 0.85rem; font-size:0.75rem;" onclick="updateContentStatus('${c.id}', 'approved_ready')">✓ Aprobar</button>
+              <button class="btn-outline" style="padding:0.38rem 0.85rem; font-size:0.75rem;" onclick="updateContentStatus('${c.id}', 'rejected')">✕ Rechazar a Guionista</button>
+              <button class="btn-gold" style="padding:0.38rem 0.9rem; font-size:0.75rem;" onclick="renderVideoForContent('${c.id}')">
+                🎬 ${c.video_asset_path ? 'Regenerar Video MP4' : 'Renderizar Video MP4 Ahora'}
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <h3 style="font-size:1.3rem; margin-bottom:0.4rem;">${c.title}</h3>
+              <label style="margin-top:0.4rem;">Hook de Apertura</label>
+              <input type="text" id="edit-hook-${c.id}" value="${c.hook.replace(/"/g, '&quot;')}" />
+              <label>Guion Completo Narrado</label>
+              <textarea id="edit-script-${c.id}" rows="4">${c.script_full}</textarea>
+              <label>Caption y CTA</label>
+              <textarea id="edit-caption-${c.id}" rows="3">${c.caption}</textarea>
+              <button class="btn-outline" style="margin-top:0.65rem; padding:0.45rem 1rem; font-size:0.76rem;" onclick="saveContentEdits('${c.id}')">
+                Guardar Texto y Re-evaluar QC (Agente 7)
+              </button>
+            </div>
+            <div>
+              ${c.video_asset_path ? `
+                <video controls preload="metadata" poster="${c.cover_asset_path || ''}" style="width:100%; max-height:360px; border-radius:10px; border:1px solid var(--gold-astrolabe); background:#000;">
+                  <source src="${c.video_asset_path}" type="video/mp4" />
+                </video>
+              ` : `
+                <div style="display:flex; gap:1rem; align-items:center; background:rgba(5,7,14,0.7); padding:1rem; border-radius:10px; border:1px solid var(--gold-border);">
+                  <img src="${c.cover_asset_path}" alt="Cover" style="width:110px; height:140px; object-fit:cover; border-radius:8px;" />
+                  <div style="font-size:0.84rem; color:var(--nebula-gray);">
+                    <strong>Storyboard listo (${JSON.parse(c.storyboard_json || '[]').length} escenas)</strong><br/>
+                    Haz clic en «Renderizar Video MP4 Ahora» para que el Agente 4 sintetice la locución, la música armónica y el archivo H.264 1080×1920.
+                  </div>
+                </div>
+              `}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterKnowledgeBase() {
+      const q = (document.getElementById('kb-search').value || '').toLowerCase();
+      const filtered = (adminState.civilizations || []).filter(c =>
+        c.name.toLowerCase().includes(q) ||
+        c.astronomical_facts.toLowerCase().includes(q) ||
+        c.mythology_and_folklore.toLowerCase().includes(q) ||
+        c.esoteric_narratives.toLowerCase().includes(q) ||
+        c.symbolism.toLowerCase().includes(q)
+      );
+
+      document.getElementById('kb-container').innerHTML = filtered.map(c => `
+        <div class="card-cosmic" style="margin-bottom:1.25rem;">
+          <div style="display:flex; gap:1.3rem; align-items:flex-start; flex-wrap:wrap;">
+            <img src="assets/civilizations/${c.slug}.png" alt="${c.name}" style="width:140px; height:175px; object-fit:cover; border-radius:10px; border:1px solid var(--gold-astrolabe);" />
+            <div style="flex:1; min-width:260px;">
+              <span class="badge badge-gold">${c.constellation_or_origin}</span>
+              <h3 style="font-size:1.5rem; margin:0.35rem 0;">${c.name}</h3>
+              <p style="font-size:0.86rem; color:var(--pearl-white); margin-bottom:0.45rem;"><strong>[A] Astronomía Comprobable:</strong> ${c.astronomical_facts}</p>
+              <p style="font-size:0.86rem; color:var(--nebula-gray); margin-bottom:0.45rem;"><strong>[B] Mitología y Tradición Histórica:</strong> ${c.mythology_and_folklore}</p>
+              <p style="font-size:0.86rem; color:var(--nebula-gray); margin-bottom:0.45rem;"><strong>[C] Narrativa Esotérica Contemporánea:</strong> ${c.esoteric_narratives}</p>
+              <p style="font-size:0.82rem; color:var(--gold-soft);"><strong>Sustento Documental:</strong> ${c.documentary_support_level}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function runSingleAgent(agentId) {
+      showToast('Ejecutando agente ' + agentId + '...');
+      const res = await fetch('/api/admin/agents/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agent_id: agentId })
+      });
+      const data = await res.json();
+      showToast(data.result.resultSummary || data.result.message);
+      loadAdminAll();
+    }
+
+    async function togglePauseAgent(agentId, isPaused) {
+      await fetch('/api/admin/agents/pause', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agent_id: agentId, is_paused: isPaused })
+      });
+      showToast(isPaused ? 'Agente pausado.' : 'Agente reanudado.');
+      loadAdminAll();
+    }
+
+    async function triggerDailyOrchestrator() {
+      showToast('Ejecutando ciclo coordinado de los 7 agentes...');
+      const res = await fetch('/api/admin/orchestrator/run-daily', { method: 'POST' });
+      const data = await res.json();
+      showToast('Ciclo completado: ' + (data.steps ? data.steps.length : 0) + ' agentes ejecutados.');
+      loadAdminAll();
+    }
+
+    async function saveContentEdits(contentId) {
+      const hook = document.getElementById('edit-hook-' + contentId).value;
+      const script_full = document.getElementById('edit-script-' + contentId).value;
+      const caption = document.getElementById('edit-caption-' + contentId).value;
+      const res = await fetch('/api/admin/content/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: contentId, hook, script_full, caption })
+      });
+      const data = await res.json();
+      showToast(`Contenido actualizado · Nuevo puntaje QC: ${data.qc.total_score}/100`);
+      loadAdminAll();
+    }
+
+    async function updateContentStatus(contentId, approval_status) {
+      await fetch('/api/admin/content/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: contentId, approval_status })
+      });
+      showToast('Estado actualizado a: ' + approval_status);
+      loadAdminAll();
+    }
+
+    async function renderVideoForContent(contentId) {
+      showToast('Renderizando video MP4 1080×1920 con voz y música (toma ~8 segundos)...');
+      const res = await fetch('/api/admin/content/render-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content_id: contentId })
+      });
+      const data = await res.json();
+      showToast('Video MP4 renderizado e inspeccionado: ' + data.result.resultSummary);
+      loadAdminAll();
+    }
+
+    async function updateSchedule(contentId) {
+      const scheduled_date = document.getElementById('cal-date-' + contentId).value;
+      const scheduled_time = document.getElementById('cal-time-' + contentId).value;
+      await fetch('/api/admin/content/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: contentId, scheduled_date, scheduled_time })
+      });
+      showToast('Horario actualizado en el calendario.');
+      loadAdminAll();
+    }
+
+    async function updateProductPrice(productId) {
+      const price_mxn = Number(document.getElementById('prod-price-' + productId).value);
+      await fetch('/api/admin/products/price', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: productId, price_mxn })
+      });
+      showToast('Precio actualizado en la tienda a $' + price_mxn + ' MXN.');
+      loadAdminAll();
+    }
+
+    async function saveBrandSettings(e) {
+      e.preventDefault();
+      const payload = {
+        brand_name: document.getElementById('cfg-brand-name').value.trim(),
+        brand_subtitle: document.getElementById('cfg-brand-subtitle').value.trim(),
+        instagram_handle: document.getElementById('cfg-ig-handle').value.trim(),
+        domain: document.getElementById('cfg-domain').value.trim(),
+        bio_line_1: document.getElementById('cfg-bio-1').value.trim(),
+        bio_cta: document.getElementById('cfg-bio-cta').value.trim(),
+        monthly_budget_mxn: Number(document.getElementById('cfg-monthly-budget').value),
+        daily_budget_mxn: Number(document.getElementById('cfg-daily-budget').value),
+        image_provider: document.getElementById('cfg-image-provider').value,
+        video_provider: document.getElementById('cfg-video-provider').value,
+        tts_provider: document.getElementById('cfg-tts-provider').value,
+        auto_publish_enabled: document.getElementById('cfg-auto-publish').checked ? 1 : 0,
+        paid_apis_enabled: document.getElementById('cfg-paid-apis').checked ? 1 : 0
+      };
+      await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      showToast('Configuración de marca y límites financieros guardada.');
+      loadAdminAll();
+    }
+
+    // =========================================================================
+    // LÓGICA DEL CENTRO DE AUTORIZACIÓN DIARIA Y CORRECCIÓN EN VIVO (9 LÁMINAS + STORIES + REEL)
+    // =========================================================================
+    let dailyPacksState = [];
+    let selectedRaceSlug = 'pleyadianos';
+    let packCacheBuster = Date.now();
+
+    const SLIDE_LABELS = [
+      'Lámina 1 · Portada Imperial',
+      'Lámina 2 · 1. Origen y Expansión',
+      'Lámina 3 · 2. ¿Cómo se Describen?',
+      'Lámina 4 · 3. Rasgos Energéticos',
+      'Lámina 5 · 4. Facciones y Linajes',
+      'Lámina 6 · 5. Guerras / Alianzas Galácticas',
+      'Lámina 7 · 6. Su Vínculo con la Tierra',
+      'Lámina 8 · 7. Semillas Estelares',
+      'Lámina 9 · 8. Señales y Propósito'
+    ];
+
+    async function loadDailyPacks() {
+      try {
+        const res = await fetch('/api/admin/daily-packs');
+        const data = await res.json();
+        dailyPacksState = data.races || [];
+        renderDailyPacksSelector();
+        renderSelectedDailyPack();
+      } catch (e) {
+        console.error('Error cargando daily packs:', e);
+      }
+    }
+
+    function selectDailyRace(slug) {
+      selectedRaceSlug = slug;
+      renderDailyPacksSelector();
+      renderSelectedDailyPack();
+    }
+
+    function renderDailyPacksSelector() {
+      const container = document.getElementById('daily-races-selector');
+      if (!container) return;
+      container.innerHTML = dailyPacksState.map((r, idx) => {
+        const isSel = r.slug === selectedRaceSlug;
+        const isApproved = r.approval_status === 'approved_ready' || r.approval_status === 'published';
+        return `
+          <button
+            class="${isSel ? 'btn-gold' : 'btn-outline'}"
+            style="padding:0.65rem 1.15rem; font-size:0.82rem; display:flex; align-items:center; gap:0.5rem;"
+            onclick="selectDailyRace('${r.slug}')"
+          >
+            <span>${isApproved ? '✅' : '⏳'} Día ${idx + 1}: <strong>${r.name}</strong></span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderSelectedDailyPack() {
+      const container = document.getElementById('daily-pack-viewer');
+      if (!container) return;
+      const race = dailyPacksState.find(r => r.slug === selectedRaceSlug) || dailyPacksState[0];
+      if (!race) return;
+
+      const isApproved = race.approval_status === 'approved_ready' || race.approval_status === 'published';
+      const statusBadge = isApproved
+        ? `<span class="badge badge-ok" style="font-size:0.85rem; padding:0.4rem 0.9rem;">✅ AUTORIZADO Y LISTO PARA SUBIR A @CODIGOESTELAR333</span>`
+        : `<span class="badge badge-warn" style="font-size:0.85rem; padding:0.4rem 0.9rem;">⏳ PENDIENTE DE TU AUTORIZACIÓN</span>`;
+
+      container.innerHTML = `
+        <!-- BARRA SUPERIOR DE AUTORIZACIÓN DEL DÍA -->
+        <div class="card-cosmic" style="margin-bottom:1.5rem; border:1px solid rgba(216,178,92,0.55); background:linear-gradient(135deg, rgba(16,28,66,0.92), rgba(7,11,26,0.96));">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; margin-bottom:0.45rem;">
+                <span class="badge badge-gold">DÍA ${race.day_number} · PACK COMPLETO DE RAZA</span>
+                ${statusBadge}
+              </div>
+              <h2 style="font-size:1.7rem; color:var(--gold-soft); margin:0;">${race.title_cover} — ${race.subtitle_cover}</h2>
+              <p style="color:var(--silver-mist); font-size:0.88rem; margin-top:0.25rem;">
+                Incluye: <strong>9 Láminas de Carrusel (1080×1350)</strong> + <strong>9 Historias Destacadas (1080×1920)</strong> + <strong>1 Reel Animado con Voz y Música (MP4)</strong>
+                ${race.authorized_at ? ` · Autorizado: ${new Date(race.authorized_at).toLocaleString()}` : ''}
+              </p>
+            </div>
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+              <button class="btn-gold" style="padding:0.85rem 1.5rem; font-size:0.9rem;" onclick="authorizeDailyPack('${race.slug}', 'approved_ready')">
+                ✅ Autorizar Publicación del Día (${race.name})
+              </button>
+              <button class="btn-outline" style="padding:0.85rem 1.2rem; font-size:0.85rem;" onclick="document.getElementById('correction-box-${race.slug}').scrollIntoView({behavior:'smooth'})">
+                ✏️ Pedir Corrección o Editar Lámina ↓
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILA 1: SERIE DE 3 REELS CINEMATOGRÁFICOS POR RAZA (PARA VARIOS DÍAS) + CAPTION OFICIAL -->
+        <div class="card-cosmic" style="margin-bottom:1.6rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom:1rem;">
+            <div>
+              <span class="badge badge-gold">1. SERIE DE 3 REELS CINEMATOGRÁFICOS PRO DE ${race.name} (VOZ NATURAL + MÚSICA ORQUESTAL TEMÁTICA)</span>
+              <h3 style="margin:0.4rem 0 0.2rem; font-size:1.4rem;">3 Reels Diferentes de ${race.name} para Publicar en los Próximos Días</h3>
+              <p style="font-size:0.86rem; color:var(--silver-mist); margin:0;">
+                Cada raza cuenta con <strong>3 Reels distintos</strong> (1: <em>El Llamado y la Nostalgia</em> · 2: <em>Señales en tu Vida</em> · 3: <em>Sueños, Templos y Misión</em>) con escenas NanoBanana Pro, partículas de luz dorada, música de cello/arpa/coro y voz neuronal emotiva.
+              </p>
+            </div>
+            <button class="btn-outline" style="padding:0.55rem 1rem; font-size:0.8rem;" onclick="rerenderOnlyReel('${race.slug}')">
+              🎬 Re-renderizar los 3 Reels de ${race.name}
+            </button>
+          </div>
+
+          <div class="grid-3">
+            ${(race.reelsByTopic && race.reelsByTopic.length ? race.reelsByTopic : [
+              { topicKey: 'origen', topicTitle: '1. El Llamado y Origen Estelar', dayBadge: 'TEMA 1 · ORIGEN', videoUrl: race.reelVideoUrl, coverUrl: race.reelCoverUrl, caption: race.caption_instagram }
+            ]).map((rt, rIdx) => `
+              <div style="background:rgba(6,10,25,0.88); border:1px solid rgba(216,178,92,0.42); border-radius:14px; padding:0.9rem; display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <span class="badge badge-gold" style="margin-bottom:0.4rem; display:inline-block;">${rt.dayBadge || ('REEL #' + (rIdx + 1))}</span>
+                  <h4 style="color:var(--gold-soft); font-size:1.02rem; margin:0 0 0.65rem;">${rt.topicTitle}</h4>
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="${rt.coverUrl}?v=${packCacheBuster}"
+                    style="width:100%; max-height:380px; object-fit:cover; border-radius:10px; border:1px solid rgba(216,178,92,0.45); box-shadow:0 8px 24px rgba(0,0,0,0.65); margin-bottom:0.65rem;"
+                  >
+                    <source src="${rt.videoUrl}?v=${packCacheBuster}" type="video/mp4" />
+                  </video>
+                  <label style="font-size:0.75rem; color:var(--silver-mist);">Caption específico para este Reel:</label>
+                  <textarea id="reel-topic-caption-${race.slug}-${rIdx}" rows="4" style="font-size:0.78rem; line-height:1.4; margin-bottom:0.55rem;">${rt.caption || race.caption_instagram}</textarea>
+                </div>
+                <div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+                  <a href="${rt.videoUrl}?v=${packCacheBuster}" download="Reel_${race.slug}_${rt.topicKey}.mp4" class="btn-gold" style="flex:1; text-align:center; padding:0.5rem 0.6rem; font-size:0.76rem;">
+                    ⬇ Descargar MP4
+                  </a>
+                  <button class="btn-outline" style="padding:0.5rem 0.7rem; font-size:0.76rem;" onclick="navigator.clipboard.writeText(document.getElementById('reel-topic-caption-${race.slug}-${rIdx}').value); showToast('Caption del Reel copiado');">
+                    📋 Copiar Caption
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- FILA 1B: CAPTION OFICIAL DEL CARRUSEL DE 9 LÁMINAS -->
+        <div class="card-cosmic" style="margin-bottom:1.6rem;">
+          <span class="badge badge-gold">2. CAPTION OFICIAL PARA EL POST CARRUSEL DE 9 LÁMINAS (100% INMERSIVO)</span>
+          <h3 style="margin:0.5rem 0 0.8rem;">Descripción General del Linaje (${race.name}) Lista para Copiar y Pegar</h3>
+          <textarea id="daily-caption-${race.slug}" rows="6" style="font-size:0.86rem; line-height:1.5;">${race.caption_instagram}</textarea>
+          <div style="display:flex; gap:0.65rem; flex-wrap:wrap; margin-top:0.5rem;">
+            <button class="btn-gold" style="padding:0.55rem 1.15rem; font-size:0.8rem;" onclick="navigator.clipboard.writeText(document.getElementById('daily-caption-${race.slug}').value); showToast('Caption copiado al portapapeles');">
+              📋 Copiar Caption del Post de ${race.name}
+            </button>
+            <button class="btn-outline" style="padding:0.55rem 1.1rem; font-size:0.8rem;" onclick="saveCaptionOnly('${race.slug}')">
+              💾 Guardar Cambio en Caption
+            </button>
+          </div>
+        </div>
+
+        <!-- FILA 2: LAS 9 LÁMINAS DEL POST CARRUSEL (1080×1350) -->
+        <div class="card-cosmic" style="margin-bottom:1.6rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom:1rem;">
+            <div>
+              <span class="badge badge-gold">3. CARRUSEL DE 9 LÁMINAS PARA EL FEED (1080×1350)</span>
+              <h3 style="font-size:1.35rem; margin-top:0.3rem;">Vista Previa de las 9 Láminas del Post: ${race.title_cover}</h3>
+            </div>
+            <span style="font-size:0.82rem; color:var(--silver-mist);">Haz clic en cualquier lámina para verla en tamaño grande o descargarla</span>
+          </div>
+          <div class="grid-3">
+            ${race.postSlides.map((url, idx) => `
+              <div style="background:rgba(6,10,25,0.85); border:1px solid rgba(216,178,92,0.35); border-radius:12px; padding:0.75rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.45rem;">
+                  <strong style="font-size:0.82rem; color:var(--gold-soft);">${SLIDE_LABELS[idx]}</strong>
+                  <a href="${url}?v=${packCacheBuster}" download="${race.slug}_post_lamina_0${idx + 1}.png" style="font-size:0.76rem; color:var(--cyan-sirius);">⬇ PNG</a>
+                </div>
+                <a href="${url}?v=${packCacheBuster}" target="_blank">
+                  <img src="${url}?v=${packCacheBuster}" alt="${SLIDE_LABELS[idx]}" style="width:100%; border-radius:8px; border:1px solid rgba(216,178,92,0.25);" />
+                </a>
+                <button class="btn-outline" style="width:100%; margin-top:0.5rem; padding:0.4rem; font-size:0.75rem;" onclick="prefillSlideCorrection('${race.slug}', ${idx + 1})">
+                  ✏️ Corregir Lámina ${idx + 1}
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- FILA 3: LAS 9 HISTORIAS DESTACADAS VERTICALES (1080×1920) PARA EL PERFIL -->
+        <div class="card-cosmic" style="margin-bottom:1.6rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; margin-bottom:1rem;">
+            <div>
+              <span class="badge badge-gold">4. HISTORIAS DESTACADAS DE LA RAZA (9 STORIES 1080×1920)</span>
+              <h3 style="font-size:1.35rem; margin-top:0.3rem;">Pack de Historia Destacada para "${race.name}" (Formato Vertical 9:16)</h3>
+              <p style="font-size:0.85rem; color:var(--silver-mist);">Sube estas 9 stories y fíjalas en un círculo de Historia Destacada llamado <strong>"${race.name}"</strong> para que cada visitante conozca toda su historia, facciones y semillas estelares.</p>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(175px, 1fr)); gap:0.85rem;">
+            ${race.storySlides.map((url, idx) => `
+              <div style="background:rgba(6,10,25,0.85); border:1px solid rgba(216,178,92,0.3); border-radius:10px; padding:0.55rem; text-align:center;">
+                <div style="font-size:0.75rem; color:var(--gold-soft); margin-bottom:0.35rem; font-weight:600;">Story 0${idx + 1}</div>
+                <a href="${url}?v=${packCacheBuster}" target="_blank">
+                  <img src="${url}?v=${packCacheBuster}" alt="Story ${idx + 1}" style="width:100%; border-radius:6px; margin-bottom:0.4rem;" />
+                </a>
+                <a href="${url}?v=${packCacheBuster}" download="${race.slug}_story_0${idx + 1}.png" class="btn-outline" style="display:block; padding:0.3rem; font-size:0.72rem;">⬇ Descargar Story 0${idx + 1}</a>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- FILA 4: MÓDULO DE CORRECCIONES Y AJUSTES EN UN CLIC -->
+        <div class="card-cosmic" id="correction-box-${race.slug}" style="border:1px solid var(--gold-astrolabe);">
+          <span class="badge badge-gold">5. ¿NECESITAS CAMBIOS O CORRECCIONES ANTES DE SUBIR?</span>
+          <h3 style="font-size:1.45rem; margin:0.4rem 0 0.6rem;">Editor y Re-Renderizador Instantáneo de Láminas, Stories y Reel (${race.name})</h3>
+          <p style="font-size:0.9rem; color:var(--silver-mist); margin-bottom:1.2rem;">
+            Si quieres cambiar una frase, corregir un dato de las facciones, ajustar las señales de semilla estelar o modificar el cierre, tienes <strong>dos formas inmediatas</strong> de hacerlo sin salir de este panel:
+          </p>
+
+          <!-- OPCIÓN A: CORRECCIÓN RÁPIDA POR LÁMINA -->
+          <div style="background:rgba(13,22,52,0.75); border:1px solid rgba(216,178,92,0.4); border-radius:12px; padding:1.1rem; margin-bottom:1.4rem;">
+            <h4 style="color:var(--gold-soft); margin:0 0 0.6rem;">Opción A · Corrección Rápida de una Lámina Específica (~1 segundo)</h4>
+            <div class="grid-2" style="margin-bottom:0.7rem;">
+              <div>
+                <label>1. Elige qué lámina quieres modificar</label>
+                <select id="quick-slide-select-${race.slug}">
+                  <option value="1">Lámina 1 · Subtítulo de Portada</option>
+                  <option value="2">Lámina 2 · Texto principal de Origen y Expansión</option>
+                  <option value="3">Lámina 3 · Pie descriptivo de ¿Cómo se Describen?</option>
+                  <option value="4">Lámina 4 · Pie descriptivo de Rasgos Energéticos</option>
+                  <option value="5">Lámina 5 · Pie descriptivo de Facciones y Linajes</option>
+                  <option value="6">Lámina 6 · Punto 1 de Historia Galáctica / Alianzas</option>
+                  <option value="7">Lámina 7 · Punto 1 de Su Vínculo con la Tierra</option>
+                  <option value="8">Lámina 8 · Frase central de Semillas Estelares</option>
+                  <option value="9">Lámina 9 · Frase inspiradora de cierre (Señales y Propósito)</option>
+                </select>
+              </div>
+              <div>
+                <label>2. ¿Actualizar también el video Reel MP4 con la nueva voz?</label>
+                <select id="quick-rerender-reel-${race.slug}">
+                  <option value="0">Solo re-renderizar Post + Story PNG (Instantáneo · 1 seg)</option>
+                  <option value="1">Re-renderizar Post + Story PNG + Video Reel MP4 (~8 seg)</option>
+                </select>
+              </div>
+            </div>
+            <label>3. Escribe el nuevo texto exacto que deseas que aparezca en esa lámina</label>
+            <input type="text" id="quick-instruction-${race.slug}" placeholder="Ej: Una semilla estelar pleyadiana porta en su alma la medicina del amor, el arte y la armonía de las Siete Hermanas." />
+            <button class="btn-gold" style="padding:0.7rem 1.4rem; font-size:0.85rem;" onclick="applyQuickSlideCorrection('${race.slug}')">
+              ⚡ Aplicar Corrección y Re-renderizar Lámina Ahora
+            </button>
+          </div>
+
+          <!-- OPCIÓN B: EDITOR COMPLETO DE TODOS LOS TEXTOS DEL PACK -->
+          <details style="background:rgba(8,13,31,0.85); border:1px solid rgba(216,178,92,0.3); border-radius:12px; padding:1rem;">
+            <summary style="cursor:pointer; font-weight:600; color:var(--gold-soft); font-size:0.95rem;">
+              Opción B · Abrir Editor Detallado de las 9 Láminas de ${race.name} (Títulos, Rasgos, Facciones y Semillas Estelares)
+            </summary>
+            <div style="margin-top:1rem;">
+              <div class="grid-2">
+                <div>
+                  <label>Título de Portada (Lámina 1)</label>
+                  <input type="text" id="full-title-${race.slug}" value="${race.title_cover}" />
+                </div>
+                <div>
+                  <label>Subtítulo de Portada (Lámina 1)</label>
+                  <input type="text" id="full-subtitle-${race.slug}" value="${race.subtitle_cover}" />
+                </div>
+              </div>
+              <label>Introducción de Origen y Expansión (Lámina 2)</label>
+              <textarea id="full-origin-intro-${race.slug}" rows="2">${race.origin_intro}</textarea>
+
+              <label>Puntos de Origen (Lámina 2 · 1 por línea)</label>
+              <textarea id="full-origin-pts-${race.slug}" rows="4">${(race.origin_points || []).join('\n')}</textarea>
+
+              <label>6 Rasgos de Semilla Estelar (Lámina 8 · 1 por línea)</label>
+              <textarea id="full-starseed-traits-${race.slug}" rows="6">${(race.starseed_traits || []).join('\n')}</textarea>
+
+              <label>Frase de Cierre de Semillas Estelares (Lámina 8)</label>
+              <input type="text" id="full-starseed-footer-${race.slug}" value="${race.starseed_footer}" />
+
+              <div class="grid-2">
+                <div>
+                  <label>4 Señales Frecuentes (Lámina 9 · 1 por línea)</label>
+                  <textarea id="full-signals-${race.slug}" rows="4">${(race.signals || []).join('\n')}</textarea>
+                </div>
+                <div>
+                  <label>4 Propósitos Espirituales (Lámina 9 · 1 por línea)</label>
+                  <textarea id="full-purpose-${race.slug}" rows="4">${(race.purpose || []).join('\n')}</textarea>
+                </div>
+              </div>
+
+              <label>Cita Final Inspiradora (Lámina 9 y cierre del Reel)</label>
+              <textarea id="full-closing-${race.slug}" rows="2">${race.closing_quote}</textarea>
+
+              <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:0.8rem;">
+                <button class="btn-gold" onclick="saveFullPackEdits('${race.slug}', false)">
+                  🎨 Guardar Todo y Re-renderizar las 9 Láminas + 9 Stories
+                </button>
+                <button class="btn-outline" onclick="saveFullPackEdits('${race.slug}', true)">
+                  🎬 Guardar Todo y Re-renderizar Láminas + Stories + Reel MP4
+                </button>
+              </div>
+            </div>
+          </details>
+        </div>
+      `;
+    }
+
+    async function authorizeDailyPack(slug, status) {
+      showToast('Autorizando pack completo del día...');
+      const res = await fetch('/api/admin/races/authorize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, approval_status: status })
+      });
+      await res.json();
+      showToast(`✅ Pack de ${slug.toUpperCase()} autorizado y listo para publicar en @codigoestelar333.`);
+      await loadDailyPacks();
+    }
+
+    function prefillSlideCorrection(slug, slideNum) {
+      const sel = document.getElementById(`quick-slide-select-${slug}`);
+      const inp = document.getElementById(`quick-instruction-${slug}`);
+      if (sel) sel.value = String(slideNum);
+      const box = document.getElementById(`correction-box-${slug}`);
+      if (box) box.scrollIntoView({ behavior: 'smooth' });
+      if (inp) inp.focus();
+    }
+
+    async function applyQuickSlideCorrection(slug) {
+      const slideNum = Number(document.getElementById(`quick-slide-select-${slug}`).value);
+      const rerenderReel = document.getElementById(`quick-rerender-reel-${slug}`).value === '1';
+      const instr = document.getElementById(`quick-instruction-${slug}`).value.trim();
+      if (!instr) {
+        showToast('Escribe primero el texto o ajuste que deseas aplicar en la lámina.');
+        return;
+      }
+      showToast(`Re-renderizando Lámina ${slideNum} de ${slug.toUpperCase()}${rerenderReel ? ' + Reel MP4' : ''}...`);
+      const res = await fetch('/api/admin/races/update-and-rerender', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug,
+          target_slide: slideNum,
+          correction_instruction: instr,
+          rerender_reel: rerenderReel
+        })
+      });
+      const data = await res.json();
+      packCacheBuster = data.cacheBuster || Date.now();
+      showToast(`✓ Lámina ${slideNum} (Post + Historia Destacada) actualizada al instante.`);
+      await loadDailyPacks();
+    }
+
+    async function saveCaptionOnly(slug) {
+      const caption_instagram = document.getElementById(`daily-caption-${slug}`).value;
+      const res = await fetch('/api/admin/races/update-and-rerender', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, target_slide: 1, caption_instagram, fields: {} })
+      });
+      await res.json();
+      showToast('✓ Caption guardado.');
+      await loadDailyPacks();
+    }
+
+    async function rerenderOnlyReel(slug) {
+      showToast(`Renderizando video Reel MP4 de ${slug.toUpperCase()} (~8 seg)...`);
+      const res = await fetch('/api/admin/races/update-and-rerender', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, target_slide: 1, rerender_reel: true, fields: {} })
+      });
+      const data = await res.json();
+      packCacheBuster = data.cacheBuster || Date.now();
+      showToast(`✓ Video Reel MP4 de ${slug.toUpperCase()} actualizado.`);
+      await loadDailyPacks();
+    }
+
+    async function saveFullPackEdits(slug, rerenderReel) {
+      showToast(`Re-renderizando las 9 láminas y 9 stories de ${slug.toUpperCase()}...`);
+      const fields = {
+        title_cover: document.getElementById(`full-title-${slug}`).value.trim(),
+        subtitle_cover: document.getElementById(`full-subtitle-${slug}`).value.trim(),
+        origin_intro: document.getElementById(`full-origin-intro-${slug}`).value.trim(),
+        origin_points: document.getElementById(`full-origin-pts-${slug}`).value.split('\n').map(s => s.trim()).filter(Boolean),
+        starseed_traits: document.getElementById(`full-starseed-traits-${slug}`).value.split('\n').map(s => s.trim()).filter(Boolean),
+        starseed_footer: document.getElementById(`full-starseed-footer-${slug}`).value.trim(),
+        signals: document.getElementById(`full-signals-${slug}`).value.split('\n').map(s => s.trim()).filter(Boolean),
+        purpose: document.getElementById(`full-purpose-${slug}`).value.split('\n').map(s => s.trim()).filter(Boolean),
+        closing_quote: document.getElementById(`full-closing-${slug}`).value.trim()
+      };
+      const res = await fetch('/api/admin/races/update-and-rerender', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, fields, rerender_reel: rerenderReel })
+      });
+      const data = await res.json();
+      packCacheBuster = data.cacheBuster || Date.now();
+      showToast(`✓ Pack completo de ${slug.toUpperCase()} regenerado con éxito.`);
+      await loadDailyPacks();
+    }
+
+    loadDailyPacks();
+    loadAdminAll();
+  </script>
+</body>
+</html>

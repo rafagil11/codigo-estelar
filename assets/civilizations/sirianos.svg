@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350" width="1080" height="1350">
+    <defs>
+      <radialGradient id="g_sirianos" cx="50%" cy="44%" r="65%">
+        <stop offset="0%" stop-color="#0D3642"/>
+        <stop offset="65%" stop-color="#050C14"/>
+        <stop offset="100%" stop-color="#04060B"/>
+      </radialGradient>
+    </defs>
+    <rect width="1080" height="1350" fill="url(#g_sirianos)"/>
+    <rect x="56" y="56" width="968" height="1238" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.5"/>
+    <text x="540" y="135" text-anchor="middle" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="19" letter-spacing="8">CÓDIGO ESTELAR · ARCHIVO CARTOGRÁFICO</text>
+    <g transform="translate(540,585)">
+      <g stroke="#36D6E7" stroke-width="2.2" fill="none">
+      <circle cx="-55" cy="0" r="135" stroke="#D4AF37" stroke-width="3"/>
+      <circle cx="85" cy="0" r="65" stroke="#F4F1EA" stroke-width="2.5"/>
+      <circle cx="0" cy="0" r="245" stroke-opacity="0.4" stroke-dasharray="8 8"/>
+      <path d="M -220,0 Q 0,-180 220,0 Q 0,180 -220,0 Z" stroke="#36D6E7" stroke-width="2.5"/>
+      <circle cx="-55" cy="0" r="18" fill="#D4AF37"/>
+      <circle cx="85" cy="0" r="9" fill="#F4F1EA"/>
+    </g>
+    </g>
+    <text x="540" y="1045" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="36" letter-spacing="4">SIRIANOS (SIRIO A &amp; SIRIO B · CANIS MAJOR)</text>
+    <text x="540" y="1105" text-anchor="middle" fill="#36D6E7" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="2">Sistema Binario Sagrado · Sabiduría Ancestral, Geometría Acuática y Kemet</text>
+    <text x="540" y="1230" text-anchor="middle" fill="#9A968E" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3">CLASIFICACIÓN DOCUMENTAL: ASTRONOMÍA [A] · MITOLOGÍA [B] · TRADICIÓN ESOTÉRICA [C]</text>
+  </svg>

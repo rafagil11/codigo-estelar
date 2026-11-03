@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1800" width="1200" height="1800">
+  <defs>
+    <radialGradient id="ebBg" cx="50%" cy="46%" r="65%">
+      <stop offset="0%" stop-color="#261B54"/>
+      <stop offset="55%" stop-color="#0B1026"/>
+      <stop offset="100%" stop-color="#04060C"/>
+    </radialGradient>
+    <linearGradient id="ebGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8E7A6"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#8F6E14"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1800" fill="url(#ebBg)"/>
+  <rect x="70" y="70" width="1060" height="1660" fill="none" stroke="url(#ebGold)" stroke-width="2.5" stroke-opacity="0.7"/>
+  <rect x="92" y="92" width="1016" height="1616" fill="none" stroke="url(#ebGold)" stroke-width="1" stroke-opacity="0.35"/>
+  <text x="600" y="210" text-anchor="middle" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="12">COLECCIÓN CARTOGRAFÍA DEL COSMOS · VOL. I</text>
+  <text x="600" y="340" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="72" letter-spacing="8">ATLAS DE LOS</text>
+  <text x="600" y="435" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="72" letter-spacing="8">LINAJES ESTELARES</text>
+  <line x1="320" y1="485" x2="880" y2="485" stroke="url(#ebGold)" stroke-width="2"/>
+  <text x="600" y="545" text-anchor="middle" fill="#C9C5BA" font-family="Georgia, serif" font-style="italic" font-size="30">Una exploración de las civilizaciones galácticas, sus símbolos</text>
+  <text x="600" y="588" text-anchor="middle" fill="#C9C5BA" font-family="Georgia, serif" font-style="italic" font-size="30">y sus interpretaciones espirituales contemporáneas</text>
+  <!-- Astrolabio central -->
+  <g transform="translate(600,1040)">
+    <circle cx="0" cy="0" r="330" fill="none" stroke="url(#ebGold)" stroke-width="2" stroke-dasharray="6 10"/>
+    <circle cx="0" cy="0" r="280" fill="none" stroke="url(#ebGold)" stroke-width="3"/>
+    <circle cx="0" cy="0" r="200" fill="none" stroke="#9F84F6" stroke-width="1.5" stroke-opacity="0.6"/>
+    <ellipse rx="270" ry="100" fill="none" stroke="url(#ebGold)" stroke-width="2" transform="rotate(35)"/>
+    <ellipse rx="270" ry="100" fill="none" stroke="url(#ebGold)" stroke-width="2" transform="rotate(-35)"/>
+    <polygon points="0,-275 55,-55 275,0 55,55 0,275 -55,55 -275,0 -55,-55" fill="none" stroke="url(#ebGold)" stroke-width="4"/>
+    <polygon points="0,-195 40,-40 195,0 40,40 0,195 -40,40 -195,0 -40,-40" fill="none" stroke="#F4F1EA" stroke-width="2" transform="rotate(45)"/>
+    <circle cx="0" cy="0" r="28" fill="url(#ebGold)"/>
+    <circle cx="0" cy="0" r="10" fill="#F4F1EA"/>
+  </g>
+  <text x="600" y="1590" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="32" letter-spacing="10">CÓDIGO ESTELAR EDITORIAL</text>
+  <text x="600" y="1640" text-anchor="middle" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="18" letter-spacing="6">EDICIÓN CRÍTICA ILUSTRADA · MÉXICO</text>
+</svg>

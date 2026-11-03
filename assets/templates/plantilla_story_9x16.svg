@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
+  <defs>
+    <linearGradient id="stBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#05070E"/>
+      <stop offset="50%" stop-color="#141036"/>
+      <stop offset="100%" stop-color="#070A14"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#stBg)"/>
+  <rect x="80" y="160" width="920" height="1600" rx="24" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="540" y="250" text-anchor="middle" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="8">CÓDIGO ESTELAR · INTERACTIVO</text>
+  <circle cx="540" cy="740" r="240" fill="none" stroke="#D4AF37" stroke-width="2" stroke-opacity="0.6"/>
+  <text x="540" y="1180" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="50">STORY EDITORIAL &amp; TEST CTA</text>
+  <rect x="240" y="1420" width="600" height="96" rx="48" fill="#D4AF37"/>
+  <text x="540" y="1478" text-anchor="middle" fill="#05070E" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="26" letter-spacing="4">DESCUBRE TU RESONANCIA</text>
+</svg>

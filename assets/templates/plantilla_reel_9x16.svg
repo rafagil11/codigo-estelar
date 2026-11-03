@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
+  <defs>
+    <radialGradient id="reelBg" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#1E1645"/>
+      <stop offset="55%" stop-color="#0B0F24"/>
+      <stop offset="100%" stop-color="#05070E"/>
+    </radialGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#reelBg)"/>
+  <!-- Marco editorial dentro de área segura vertical (90px lateral, 220px sup, 320px inf) -->
+  <rect x="72" y="180" width="936" height="1480" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.4"/>
+  <circle cx="540" cy="760" r="290" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-opacity="0.35"/>
+  <circle cx="540" cy="760" r="210" fill="none" stroke="#5E43B6" stroke-width="2" stroke-opacity="0.5"/>
+  <text x="540" y="255" text-anchor="middle" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="22" letter-spacing="8">CÓDIGO ESTELAR · ARCHIVO DOCUMENTAL</text>
+  <text x="540" y="1240" text-anchor="middle" fill="#F4F1EA" font-family="Georgia, serif" font-size="54" letter-spacing="4">PLANTILLA MAESTRA REEL 9:16</text>
+  <text x="540" y="1315" text-anchor="middle" fill="#C9C5BA" font-family="Helvetica, Arial, sans-serif" font-size="30">Zona segura de subtítulos programáticos (1080×1920)</text>
+</svg>

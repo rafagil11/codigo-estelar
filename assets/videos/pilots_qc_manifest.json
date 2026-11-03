@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "que-son-las-semillas-estelares",
+    "videoPath": "/Users/rafaelgil/.gemini/antigravity/scratch/codigo-estelar/public/assets/videos/que-son-las-semillas-estelares.mp4",
+    "publicVideoUrl": "/assets/videos/que-son-las-semillas-estelares.mp4",
+    "publicCoverUrl": "/assets/videos/que-son-las-semillas-estelares_cover.png",
+    "publicAudioUrl": "/assets/audio/que-son-las-semillas-estelares_voice.m4a",
+    "technicalInspection": {
+      "video_tracks_count": 1,
+      "fps": 30,
+      "file_exists": true,
+      "audio_tracks_count": 1,
+      "black_frames_detected": 0,
+      "vertical_9_16_valid": true,
+      "integrity_passed": true,
+      "file_size_bytes": 21221941,
+      "height": 1920,
+      "width": 1080,
+      "duration_seconds": 38.53
+    }
+  },
+  {
+    "slug": "universo-simbolico-pleyadiano",
+    "videoPath": "/Users/rafaelgil/.gemini/antigravity/scratch/codigo-estelar/public/assets/videos/universo-simbolico-pleyadiano.mp4",
+    "publicVideoUrl": "/assets/videos/universo-simbolico-pleyadiano.mp4",
+    "publicCoverUrl": "/assets/videos/universo-simbolico-pleyadiano_cover.png",
+    "publicAudioUrl": "/assets/audio/universo-simbolico-pleyadiano_voice.m4a",
+    "technicalInspection": {
+      "video_tracks_count": 1,
+      "fps": 30,
+      "integrity_passed": true,
+      "file_exists": true,
+      "audio_tracks_count": 1,
+      "duration_seconds": 35.07,
+      "file_size_bytes": 19443470,
+      "width": 1080,
+      "height": 1920,
+      "black_frames_detected": 0,
+      "vertical_9_16_valid": true
+    }
+  },
+  {
+    "slug": "andromedanos-libertad-espiritual",
+    "videoPath": "/Users/rafaelgil/.gemini/antigravity/scratch/codigo-estelar/public/assets/videos/andromedanos-libertad-espiritual.mp4",
+    "publicVideoUrl": "/assets/videos/andromedanos-libertad-espiritual.mp4",
+    "publicCoverUrl": "/assets/videos/andromedanos-libertad-espiritual_cover.png",
+    "publicAudioUrl": "/assets/audio/andromedanos-libertad-espiritual_voice.m4a",
+    "technicalInspection": {
+      "height": 1920,
+      "fps": 30,
+      "video_tracks_count": 1,
+      "file_exists": true,
+      "black_frames_detected": 0,
+      "file_size_bytes": 21879066,
+      "width": 1080,
+      "duration_seconds": 39.6,
+      "vertical_9_16_valid": true,
+      "integrity_passed": true,
+      "audio_tracks_count": 1
+    }
+  }
+]

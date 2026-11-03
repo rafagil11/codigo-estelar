@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script src="js/static_runtime.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CÓDIGO ESTELAR · Linajes Galácticos, Semillas Estelares y Despertar de la Conciencia</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="brand-logo-wrap">
+      <img src="assets/brand/isotipo.png" alt="Isotipo Código Estelar" />
+      <div>
+        <span class="brand-title" id="nav-brand-name">CÓDIGO ESTELAR</span>
+        <span class="brand-sub" id="nav-brand-sub">ARCHIVO DE LINAJES ESTELARES · @CODIGOESTELAR333</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" class="active">Inicio</a>
+      <a href="#historias-razas">Historias por Raza (9 Láminas)</a>
+      <a href="#reels-animados">Reels Animados</a>
+      <a href="test.html">Test de Semilla Estelar</a>
+      <a href="tienda.html">Biblioteca Sagrada</a>
+      <a href="admin.html" class="btn-outline" style="padding: 0.5rem 1.1rem; font-size: 0.78rem;">Panel de Autorización Diaria</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- HERO PRINCIPAL CON EL ESTILO CELESTE DORADO -->
+    <section class="card-cosmic" style="padding: 2.8rem 2.2rem; margin-bottom: 2.6rem; background: radial-gradient(circle at 80% 30%, rgba(94,67,182,0.38), rgba(8,12,30,0.96) 68%); border-color: var(--gold-astrolabe);">
+      <div class="grid-2" style="align-items: center;">
+        <div>
+          <span class="badge badge-gold">✦ ARCHIVO DE LINAJES ESTELARES · @CODIGOESTELAR333 ✦</span>
+          <h1 style="font-size: 2.75rem; line-height: 1.16; margin: 1rem 0; color: var(--pearl-white);" id="hero-title">
+            Recuerda el Origen Cósmico de tu Alma y el Llamado de tu Linaje Estelar
+          </h1>
+          <p style="color: var(--nebula-gray); font-size: 1.08rem; margin-bottom: 1.5rem; line-height: 1.65;">
+            Desde la cuna primordial de <strong>Lyra</strong> hasta las Siete Hermanas de las <strong>Pléyades</strong>, los templos de luz de <strong>Arcturus</strong>, los soles sagrados de <strong>Sirio</strong>, la espiral libre de <strong>Andrómeda</strong> y las aguas cristalinas de <strong>Mintaka en Orión</strong>: explora la historia, facciones, rasgos y señales de cada familia galáctica.
+          </p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.4rem;">
+            <a href="test.html?utm_source=landing_hero&utm_campaign=lanzamiento" class="btn-gold">
+              ✦ Descubre qué Semilla Estelar Eres (Test Gratuito)
+            </a>
+            <a href="#historias-razas" class="btn-outline">
+              Ver las 9 Láminas de Cada Raza ↓
+            </a>
+          </div>
+        </div>
+        <div class="grid-2" style="gap: 0.9rem;">
+          <img src="assets/races_packs/pleyadianos/lamina_01.png" alt="Historia de los Pleyadianos" style="width: 100%; border-radius: 14px; border: 1px solid var(--gold-astrolabe); box-shadow: 0 18px 40px rgba(0,0,0,0.65);" />
+          <img src="assets/races_packs/pleyadianos/lamina_08.png" alt="Semillas Estelares Pleyadianas" style="width: 100%; border-radius: 14px; border: 1px solid var(--gold-astrolabe); box-shadow: 0 18px 40px rgba(0,0,0,0.65);" />
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORADOR INTERACTIVO DE LAS 6 RAZAS (CARRUSELES DE 9 LÁMINAS + HISTORIAS DESTACADAS) -->
+    <section id="historias-razas" style="margin-bottom: 3.2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:1.2rem;">
+        <div>
+          <span class="badge badge-gold">COLECCIÓN DE HISTORIAS DESTACADAS Y CARRUSELES (9 LÁMINAS POR RAZA)</span>
+          <h2 style="font-size: 2.1rem; margin-top: 0.35rem;">Historia, Facciones y Semillas Estelares por Linaje</h2>
+          <p style="color: var(--silver-mist); font-size: 0.95rem;">Selecciona una raza galáctica para explorar sus 9 láminas ilustradas (Origen, Cómo se Describen, Rasgos Energéticos, Facciones, Historia Galáctica, Vínculo con la Tierra, Semillas Estelares y Propósito).</p>
+        </div>
+      </div>
+
+      <div id="public-race-tabs" style="display:flex; gap:0.65rem; flex-wrap:wrap; margin-bottom:1.4rem;">
+        <button class="btn-gold" onclick="showPublicRace('pleyadianos', 'PLEYADIANOS', this)">✦ Pleyadianos</button>
+        <button class="btn-outline" onclick="showPublicRace('arcturianos', 'ARCTURIANOS', this)">✦ Arcturianos</button>
+        <button class="btn-outline" onclick="showPublicRace('sirianos', 'SIRIANOS', this)">✦ Sirianos</button>
+        <button class="btn-outline" onclick="showPublicRace('andromedanos', 'ANDROMEDANOS', this)">✦ Andromedanos</button>
+        <button class="btn-outline" onclick="showPublicRace('liranos', 'LIRANOS', this)">✦ Liranos</button>
+        <button class="btn-outline" onclick="showPublicRace('orionitas', 'ORIÓN Y MINTAKA', this)">✦ Orión y Mintaka</button>
+      </div>
+
+      <div class="card-cosmic">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
+          <h3 id="public-race-heading" style="font-size:1.5rem; color:var(--gold-soft);">HISTORIA DE LOS PLEYADIANOS · Pack de 9 Láminas</h3>
+          <a href="test.html" class="btn-gold" style="padding:0.55rem 1.15rem; font-size:0.8rem;">Hacer el Test de Resonancia →</a>
+        </div>
+        <div class="grid-3" id="public-race-slides-grid"></div>
+      </div>
+    </section>
+
+    <!-- REELS ANIMADOS DE LAS 6 RAZAS GALÁCTICAS -->
+    <section id="reels-animados" style="margin-bottom: 3.2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.3rem; flex-wrap: wrap;">
+        <div>
+          <span class="badge badge-gold">REELS ANIMADOS · 1080×1920 · CON LOCUCIÓN Y FRECUENCIAS ARMÓNICAS</span>
+          <h2 style="font-size: 2rem; margin-top: 0.4rem;">Reels Animados por Linaje Estelar</h2>
+        </div>
+        <p style="color: var(--muted-gray); font-size: 0.86rem;">Arte celeste hiperdetallado, marcos dorados y narración envolvente para @codigoestelar333</p>
+      </div>
+      <div class="grid-3">
+        <div class="card-cosmic">
+          <video controls preload="metadata" poster="assets/videos/reel_historia_pleyadianos_cover.png" style="width: 100%; border-radius: 10px; border: 1px solid var(--gold-border); aspect-ratio: 9/16; background: #000;">
+            <source src="assets/videos/reel_historia_pleyadianos.mp4" type="video/mp4" />
+          </video>
+          <span class="badge badge-gold" style="margin-top: 0.8rem;">LAS SIETE HERMANAS · M45</span>
+          <h3 style="font-size: 1.2rem; margin: 0.45rem 0;">Historia de los Pleyadianos</h3>
+          <p style="font-size: 0.86rem; color: var(--nebula-gray);">Origen en Lyra, las facciones Ahil, Taal y Pueblos de Maya, y las señales de las semillas estelares pleyadianas.</p>
+        </div>
+
+        <div class="card-cosmic">
+          <video controls preload="metadata" poster="assets/videos/reel_historia_arcturianos_cover.png" style="width: 100%; border-radius: 10px; border: 1px solid var(--gold-border); aspect-ratio: 9/16; background: #000;">
+            <source src="assets/videos/reel_historia_arcturianos.mp4" type="video/mp4" />
+          </video>
+          <span class="badge badge-gold" style="margin-top: 0.8rem;">GEOMETRÍA SAGRADA · BOÖTES</span>
+          <h3 style="font-size: 1.2rem; margin: 0.45rem 0;">Historia de los Arcturianos</h3>
+          <p style="font-size: 0.86rem; color: var(--nebula-gray);">Los arquitectos de la luz, cámaras cristalinas de regeneración, la Orden de Metatrón y su misión en la Tierra.</p>
+        </div>
+
+        <div class="card-cosmic">
+          <video controls preload="metadata" poster="assets/videos/reel_historia_sirianos_cover.png" style="width: 100%; border-radius: 10px; border: 1px solid var(--gold-border); aspect-ratio: 9/16; background: #000;">
+            <source src="assets/videos/reel_historia_sirianos.mp4" type="video/mp4" />
+          </video>
+          <span class="badge badge-gold" style="margin-top: 0.8rem;">SIRIO A Y B · SOL ESPIRITUAL</span>
+          <h3 style="font-size: 1.2rem; margin: 0.45rem 0;">Historia de los Sirianos</h3>
+          <p style="font-size: 0.86rem; color: var(--nebula-gray);">Los guardianes del conocimiento ancestral en Egipto, los cetáceos sagrados y las semillas estelares de Sirio.</p>
+        </div>
+
+        <div class="card-cosmic">
+          <video controls preload="metadata" poster="assets/videos/reel_historia_andromedanos_cover.png" style="width: 100%; border-radius: 10px; border: 1px solid var(--gold-border); aspect-ratio: 9/16; background: #000;">
+            <source src="assets/videos/reel_historia_andromedanos.mp4" type="video/mp4" />
+          </video>
+          <span class="badge badge-gold" style="margin-top: 0.8rem;">GALAXIA M31 · SOBERANÍA</span>
+          <h3 style="font-size: 1.2rem; margin: 0.45rem 0;">Historia de los Andromedanos</h3>
+          <p style="font-size: 0.86rem; color: var(--nebula-gray);">El Consejo de Andrómeda, los emisarios de Zenetae y el despertar de la libertad interior.</p>
+        </div>
+
+        <div class="card-cosmic">
+          <video controls preload="metadata" poster="assets/videos/reel_historia_liranos_cover.png" style="width: 100%; border-radius: 10px; border: 1px solid var(--gold-border); aspect-ratio: 9/16; background: #000;">
+            <source src="assets/videos/reel_historia_liranos.mp4" type="video/mp4" />
+          </video>
+          <span class="badge badge-gold" style="margin-top: 0.8rem;">LYRA Y VEGA · CUNA ESTELAR</span>
+          <h3 style="font-size: 1.2rem; margin: 0.45rem 0;">Historia de los Liranos</h3>
+          <p style="font-size: 0.86rem; color: var(--nebula-gray);">Los ancianos fundadores de Lyra, los mísiticos de Vega, la nobleza Urmah y el fuego primordial de la creación.</p>
+        </div>
+
+        <div class="card-cosmic">
+          <video controls preload="metadata" poster="assets/videos/reel_historia_orionitas_cover.png" style="width: 100%; border-radius: 10px; border: 1px solid var(--gold-border); aspect-ratio: 9/16; background: #000;">
+            <source src="assets/videos/reel_historia_orionitas.mp4" type="video/mp4" />
+          </video>
+          <span class="badge badge-gold" style="margin-top: 0.8rem;">ALNITAK · ALNILAM · MINTAKA</span>
+          <h3 style="font-size: 1.2rem; margin: 0.45rem 0;">Historia de Orión y Mintaka</h3>
+          <p style="font-size: 0.86rem; color: var(--nebula-gray);">El paraíso acuático de Mintaka, la integración de la polaridad y el misterio sagrado de las tres estrellas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- INVITACIÓN AL TEST INTERACTIVO -->
+    <section class="card-cosmic" style="margin-bottom: 2.8rem; border-color: var(--gold-astrolabe);">
+      <div class="grid-2" style="align-items: center;">
+        <div>
+          <span class="badge badge-gold">EXPERIENCIA INTERACTIVA GRATUITA</span>
+          <h2 style="font-size: 2rem; margin: 0.6rem 0;">Descubre a qué Linaje Estelar Pertenece tu Alma</h2>
+          <p style="color: var(--nebula-gray); margin-bottom: 1.2rem;">
+            Responde las 12 preguntas de nuestro mapa de resonancia y descubre si tu frecuencia dominante proviene de las <strong>Pléyades</strong>, <strong>Arcturus</strong>, <strong>Sirio</strong>, <strong>Andrómeda</strong>, <strong>Lyra</strong> o <strong>Mintaka en Orión</strong>, junto con tu misión espiritual y tu guía descargable.
+          </p>
+          <a href="test.html?utm_source=landing_funnel" class="btn-gold">Iniciar Test de Semilla Estelar Ahora →</a>
+        </div>
+        <div style="text-align:center;">
+          <img src="assets/races_packs/arcturianos/lamina_01.png" alt="Arcturianos" style="width:100%; max-width:340px; border-radius:12px; border:1px solid var(--gold-astrolabe);" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="border-top: 1px solid var(--gold-border); padding: 2.5rem 1.5rem; margin-top: 3rem; text-align: center; color: var(--muted-gray); font-size: 0.85rem;">
+    <div class="container" style="padding: 0;">
+      <p style="color: var(--pearl-white); font-family: Georgia, serif; letter-spacing: 0.14em; margin-bottom: 0.5rem;">CÓDIGO ESTELAR · ARCHIVO DE LINAJES ESTELARES · @CODIGOESTELAR333</p>
+      <p style="max-width: 720px; margin: 0 auto 1rem;">
+        Un espacio dedicado al despertar de la conciencia, la memoria cósmica del alma y el recuerdo de nuestro propósito en la Tierra.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+        <a href="test.html">Test de Semilla Estelar</a>
+        <a href="tienda.html">Biblioteca Digital</a>
+        <a href="admin.html">Panel de Autorización Diaria</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SLIDE_TITLES = [
+      'Lámina 1 · Portada',
+      'Lámina 2 · 1. Origen y Expansión',
+      'Lámina 3 · 2. ¿Cómo se Describen?',
+      'Lámina 4 · 3. Rasgos Energéticos',
+      'Lámina 5 · 4. Facciones y Linajes',
+      'Lámina 6 · 5. Alianzas e Historia',
+      'Lámina 7 · 6. Vínculo con la Tierra',
+      'Lámina 8 · 7. Semillas Estelares',
+      'Lámina 9 · 8. Señales y Propósito'
+    ];
+
+    function showPublicRace(slug, name, btnEl) {
+      if (btnEl) {
+        document.querySelectorAll('#public-race-tabs button').forEach(b => {
+          b.className = 'btn-outline';
+        });
+        btnEl.className = 'btn-gold';
+      }
+      document.getElementById('public-race-heading').textContent = `HISTORIA DE LOS ${name} · Pack Completo de 9 Láminas`;
+      const grid = document.getElementById('public-race-slides-grid');
+      let html = '';
+      for (let s = 1; s <= 9; s++) {
+        const url = `assets/races_packs/${slug}/lamina_0${s}.png`;
+        html += `
+          <div style="background:rgba(6,10,25,0.85); border:1px solid rgba(216,178,92,0.35); border-radius:12px; padding:0.7rem;">
+            <div style="font-size:0.8rem; color:var(--gold-soft); font-weight:600; margin-bottom:0.45rem;">${SLIDE_TITLES[s - 1]}</div>
+            <a href="${url}" target="_blank">
+              <img src="${url}" alt="${SLIDE_TITLES[s - 1]}" style="width:100%; border-radius:8px;" />
+            </a>
+          </div>
+        `;
+      }
+      grid.innerHTML = html;
+    }
+
+    showPublicRace('pleyadianos', 'PLEYADIANOS', null);
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360">
+  <defs>
+    <linearGradient id="bgH" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#05070E"/>
+      <stop offset="50%" stop-color="#0B1026"/>
+      <stop offset="100%" stop-color="#140E2E"/>
+    </linearGradient>
+    <linearGradient id="goldH" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F6E299"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#9A781A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" fill="url(#bgH)"/>
+  <g transform="translate(190,180) scale(0.52)">
+    <circle cx="0" cy="0" r="265" fill="none" stroke="url(#goldH)" stroke-width="3" stroke-opacity="0.75"/>
+    <ellipse rx="240" ry="88" fill="none" stroke="url(#goldH)" stroke-width="2.5" stroke-opacity="0.55" transform="rotate(30)"/>
+    <ellipse rx="240" ry="88" fill="none" stroke="url(#goldH)" stroke-width="2.5" stroke-opacity="0.55" transform="rotate(-30)"/>
+    <polygon points="0,-245 48,-48 245,0 48,48 0,245 -48,48 -245,0 -48,-48" fill="none" stroke="url(#goldH)" stroke-width="4.5"/>
+    <polygon points="0,-175 34,-34 175,0 34,34 0,175 -34,34 -175,0 -34,-34" fill="none" stroke="#F4F1EA" stroke-width="2" transform="rotate(45)"/>
+    <circle cx="0" cy="0" r="24" fill="url(#goldH)"/>
+  </g>
+  <text x="370" y="168" fill="#F4F1EA" font-family="Georgia, 'Times New Roman', serif" font-size="66" letter-spacing="14" font-weight="normal">CÓDIGO ESTELAR</text>
+  <line x1="372" y1="196" x2="1110" y2="196" stroke="url(#goldH)" stroke-width="1.5" stroke-opacity="0.6"/>
+  <text x="372" y="232" fill="#D4AF37" font-family="Helvetica, Arial, sans-serif" font-size="19" letter-spacing="8">ARCHIVO GALÁCTICO · CARTOGRAFÍA SIMBÓLICA</text>
+</svg>
